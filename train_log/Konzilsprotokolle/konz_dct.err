@@ -1,0 +1,777 @@
+[2019-03-19 00:12:19, INFO, load_konzilsprotokolle] Loading from JSON: data/konzilsprotokolle/konzilsprotokolle.json
+[2019-03-19 00:12:58, INFO, load_konzilsprotokolle] Loading from JSON: data/konzilsprotokolle/konzilsprotokolle.json
+[2019-03-19 00:13:23, INFO, load_konzilsprotokolle] Loading from JSON: data/konzilsprotokolle/konzilsprotokolle.json
+[2019-03-19 00:22:54, INFO, evaluate] ground truth proposals: 185
+[2019-03-19 00:22:54, INFO, evaluate] external_proposals dtp: 9399
+[2019-03-19 00:22:57, INFO, evaluate] ground truth proposals: 160
+[2019-03-19 00:22:57, INFO, evaluate] external_proposals dtp: 10730
+[2019-03-19 00:23:01, INFO, evaluate] ground truth proposals: 178
+[2019-03-19 00:23:01, INFO, evaluate] external_proposals dtp: 8228
+[2019-03-19 00:23:03, INFO, evaluate] ground truth proposals: 173
+[2019-03-19 00:23:03, INFO, evaluate] external_proposals dtp: 9341
+[2019-03-19 00:23:06, INFO, evaluate] ground truth proposals: 177
+[2019-03-19 00:23:06, INFO, evaluate] external_proposals dtp: 6388
+[2019-03-19 00:23:08, INFO, evaluate] ground truth proposals: 163
+[2019-03-19 00:23:08, INFO, evaluate] external_proposals dtp: 10178
+[2019-03-19 00:23:12, INFO, evaluate] ground truth proposals: 112
+[2019-03-19 00:23:12, INFO, evaluate] external_proposals dtp: 10171
+[2019-03-19 00:23:15, INFO, evaluate] ground truth proposals: 198
+[2019-03-19 00:23:15, INFO, evaluate] external_proposals dtp: 9488
+[2019-03-19 00:23:18, INFO, evaluate] ground truth proposals: 121
+[2019-03-19 00:23:18, INFO, evaluate] external_proposals dtp: 11185
+[2019-03-19 00:23:21, INFO, evaluate] ground truth proposals: 188
+[2019-03-19 00:23:21, INFO, evaluate] external_proposals dtp: 5338
+[2019-03-19 00:23:30, INFO, evaluate] Calculate mAPs
+[2019-03-19 00:23:30, INFO, evaluate] mAP parallel: qbe [overlap = 0.25]
+[2019-03-19 00:23:30, INFO, map_parallel] Using '6' threads for '1655' args
+[2019-03-19 00:23:35, INFO, evaluate] mAP parallel: qbs [overlap = 0.25]
+[2019-03-19 00:23:35, INFO, map_parallel] Using '6' threads for '690' args
+[2019-03-19 00:23:37, INFO, evaluate] mAP parallel: qbe [overlap = 0.50]
+[2019-03-19 00:23:37, INFO, map_parallel] Using '6' threads for '1655' args
+[2019-03-19 00:23:41, INFO, evaluate] mAP parallel: qbs [overlap = 0.50]
+[2019-03-19 00:23:41, INFO, map_parallel] Using '6' threads for '690' args
+[2019-03-19 00:32:28, INFO, evaluate] ground truth proposals: 185
+[2019-03-19 00:32:28, INFO, evaluate] external_proposals dtp: 9399
+[2019-03-19 00:32:31, INFO, evaluate] ground truth proposals: 160
+[2019-03-19 00:32:31, INFO, evaluate] external_proposals dtp: 10730
+[2019-03-19 00:32:34, INFO, evaluate] ground truth proposals: 178
+[2019-03-19 00:32:34, INFO, evaluate] external_proposals dtp: 8228
+[2019-03-19 00:32:37, INFO, evaluate] ground truth proposals: 173
+[2019-03-19 00:32:37, INFO, evaluate] external_proposals dtp: 9341
+[2019-03-19 00:32:40, INFO, evaluate] ground truth proposals: 177
+[2019-03-19 00:32:40, INFO, evaluate] external_proposals dtp: 6388
+[2019-03-19 00:32:42, INFO, evaluate] ground truth proposals: 163
+[2019-03-19 00:32:42, INFO, evaluate] external_proposals dtp: 10178
+[2019-03-19 00:32:45, INFO, evaluate] ground truth proposals: 112
+[2019-03-19 00:32:45, INFO, evaluate] external_proposals dtp: 10171
+[2019-03-19 00:32:48, INFO, evaluate] ground truth proposals: 198
+[2019-03-19 00:32:48, INFO, evaluate] external_proposals dtp: 9488
+[2019-03-19 00:32:51, INFO, evaluate] ground truth proposals: 121
+[2019-03-19 00:32:51, INFO, evaluate] external_proposals dtp: 11185
+[2019-03-19 00:32:55, INFO, evaluate] ground truth proposals: 188
+[2019-03-19 00:32:55, INFO, evaluate] external_proposals dtp: 5338
+[2019-03-19 00:33:04, INFO, evaluate] Calculate mAPs
+[2019-03-19 00:33:04, INFO, evaluate] mAP parallel: qbe [overlap = 0.25]
+[2019-03-19 00:33:04, INFO, map_parallel] Using '6' threads for '1655' args
+[2019-03-19 00:33:08, INFO, evaluate] mAP parallel: qbs [overlap = 0.25]
+[2019-03-19 00:33:08, INFO, map_parallel] Using '6' threads for '690' args
+[2019-03-19 00:33:10, INFO, evaluate] mAP parallel: qbe [overlap = 0.50]
+[2019-03-19 00:33:10, INFO, map_parallel] Using '6' threads for '1655' args
+[2019-03-19 00:33:14, INFO, evaluate] mAP parallel: qbs [overlap = 0.50]
+[2019-03-19 00:33:14, INFO, map_parallel] Using '6' threads for '690' args
+[2019-03-19 00:42:04, INFO, evaluate] ground truth proposals: 185
+[2019-03-19 00:42:04, INFO, evaluate] external_proposals dtp: 9399
+[2019-03-19 00:42:07, INFO, evaluate] ground truth proposals: 160
+[2019-03-19 00:42:07, INFO, evaluate] external_proposals dtp: 10730
+[2019-03-19 00:42:10, INFO, evaluate] ground truth proposals: 178
+[2019-03-19 00:42:10, INFO, evaluate] external_proposals dtp: 8228
+[2019-03-19 00:42:13, INFO, evaluate] ground truth proposals: 173
+[2019-03-19 00:42:13, INFO, evaluate] external_proposals dtp: 9341
+[2019-03-19 00:42:16, INFO, evaluate] ground truth proposals: 177
+[2019-03-19 00:42:16, INFO, evaluate] external_proposals dtp: 6388
+[2019-03-19 00:42:18, INFO, evaluate] ground truth proposals: 163
+[2019-03-19 00:42:18, INFO, evaluate] external_proposals dtp: 10178
+[2019-03-19 00:42:21, INFO, evaluate] ground truth proposals: 112
+[2019-03-19 00:42:21, INFO, evaluate] external_proposals dtp: 10171
+[2019-03-19 00:42:24, INFO, evaluate] ground truth proposals: 198
+[2019-03-19 00:42:24, INFO, evaluate] external_proposals dtp: 9488
+[2019-03-19 00:42:27, INFO, evaluate] ground truth proposals: 121
+[2019-03-19 00:42:27, INFO, evaluate] external_proposals dtp: 11185
+[2019-03-19 00:42:31, INFO, evaluate] ground truth proposals: 188
+[2019-03-19 00:42:31, INFO, evaluate] external_proposals dtp: 5338
+[2019-03-19 00:42:39, INFO, evaluate] Calculate mAPs
+[2019-03-19 00:42:39, INFO, evaluate] mAP parallel: qbe [overlap = 0.25]
+[2019-03-19 00:42:39, INFO, map_parallel] Using '6' threads for '1655' args
+[2019-03-19 00:42:43, INFO, evaluate] mAP parallel: qbs [overlap = 0.25]
+[2019-03-19 00:42:43, INFO, map_parallel] Using '6' threads for '690' args
+[2019-03-19 00:42:45, INFO, evaluate] mAP parallel: qbe [overlap = 0.50]
+[2019-03-19 00:42:45, INFO, map_parallel] Using '6' threads for '1655' args
+[2019-03-19 00:42:49, INFO, evaluate] mAP parallel: qbs [overlap = 0.50]
+[2019-03-19 00:42:49, INFO, map_parallel] Using '6' threads for '690' args
+[2019-03-19 00:51:38, INFO, evaluate] ground truth proposals: 185
+[2019-03-19 00:51:38, INFO, evaluate] external_proposals dtp: 9399
+[2019-03-19 00:51:41, INFO, evaluate] ground truth proposals: 160
+[2019-03-19 00:51:41, INFO, evaluate] external_proposals dtp: 10730
+[2019-03-19 00:51:45, INFO, evaluate] ground truth proposals: 178
+[2019-03-19 00:51:45, INFO, evaluate] external_proposals dtp: 8228
+[2019-03-19 00:51:47, INFO, evaluate] ground truth proposals: 173
+[2019-03-19 00:51:47, INFO, evaluate] external_proposals dtp: 9341
+[2019-03-19 00:51:50, INFO, evaluate] ground truth proposals: 177
+[2019-03-19 00:51:50, INFO, evaluate] external_proposals dtp: 6388
+[2019-03-19 00:51:52, INFO, evaluate] ground truth proposals: 163
+[2019-03-19 00:51:52, INFO, evaluate] external_proposals dtp: 10178
+[2019-03-19 00:51:56, INFO, evaluate] ground truth proposals: 112
+[2019-03-19 00:51:56, INFO, evaluate] external_proposals dtp: 10171
+[2019-03-19 00:51:59, INFO, evaluate] ground truth proposals: 198
+[2019-03-19 00:51:59, INFO, evaluate] external_proposals dtp: 9488
+[2019-03-19 00:52:02, INFO, evaluate] ground truth proposals: 121
+[2019-03-19 00:52:02, INFO, evaluate] external_proposals dtp: 11185
+[2019-03-19 00:52:05, INFO, evaluate] ground truth proposals: 188
+[2019-03-19 00:52:05, INFO, evaluate] external_proposals dtp: 5338
+[2019-03-19 00:52:14, INFO, evaluate] Calculate mAPs
+[2019-03-19 00:52:14, INFO, evaluate] mAP parallel: qbe [overlap = 0.25]
+[2019-03-19 00:52:14, INFO, map_parallel] Using '6' threads for '1655' args
+[2019-03-19 00:52:18, INFO, evaluate] mAP parallel: qbs [overlap = 0.25]
+[2019-03-19 00:52:18, INFO, map_parallel] Using '6' threads for '690' args
+[2019-03-19 00:52:20, INFO, evaluate] mAP parallel: qbe [overlap = 0.50]
+[2019-03-19 00:52:20, INFO, map_parallel] Using '6' threads for '1655' args
+[2019-03-19 00:52:24, INFO, evaluate] mAP parallel: qbs [overlap = 0.50]
+[2019-03-19 00:52:24, INFO, map_parallel] Using '6' threads for '690' args
+[2019-03-19 01:01:10, INFO, evaluate] ground truth proposals: 185
+[2019-03-19 01:01:10, INFO, evaluate] external_proposals dtp: 9399
+[2019-03-19 01:01:13, INFO, evaluate] ground truth proposals: 160
+[2019-03-19 01:01:13, INFO, evaluate] external_proposals dtp: 10730
+[2019-03-19 01:01:16, INFO, evaluate] ground truth proposals: 178
+[2019-03-19 01:01:16, INFO, evaluate] external_proposals dtp: 8228
+[2019-03-19 01:01:19, INFO, evaluate] ground truth proposals: 173
+[2019-03-19 01:01:19, INFO, evaluate] external_proposals dtp: 9341
+[2019-03-19 01:01:22, INFO, evaluate] ground truth proposals: 177
+[2019-03-19 01:01:22, INFO, evaluate] external_proposals dtp: 6388
+[2019-03-19 01:01:24, INFO, evaluate] ground truth proposals: 163
+[2019-03-19 01:01:24, INFO, evaluate] external_proposals dtp: 10178
+[2019-03-19 01:01:27, INFO, evaluate] ground truth proposals: 112
+[2019-03-19 01:01:27, INFO, evaluate] external_proposals dtp: 10171
+[2019-03-19 01:01:30, INFO, evaluate] ground truth proposals: 198
+[2019-03-19 01:01:30, INFO, evaluate] external_proposals dtp: 9488
+[2019-03-19 01:01:34, INFO, evaluate] ground truth proposals: 121
+[2019-03-19 01:01:34, INFO, evaluate] external_proposals dtp: 11185
+[2019-03-19 01:01:37, INFO, evaluate] ground truth proposals: 188
+[2019-03-19 01:01:37, INFO, evaluate] external_proposals dtp: 5338
+[2019-03-19 01:01:45, INFO, evaluate] Calculate mAPs
+[2019-03-19 01:01:45, INFO, evaluate] mAP parallel: qbe [overlap = 0.25]
+[2019-03-19 01:01:45, INFO, map_parallel] Using '6' threads for '1655' args
+[2019-03-19 01:01:49, INFO, evaluate] mAP parallel: qbs [overlap = 0.25]
+[2019-03-19 01:01:49, INFO, map_parallel] Using '6' threads for '690' args
+[2019-03-19 01:01:51, INFO, evaluate] mAP parallel: qbe [overlap = 0.50]
+[2019-03-19 01:01:51, INFO, map_parallel] Using '6' threads for '1655' args
+[2019-03-19 01:01:54, INFO, evaluate] mAP parallel: qbs [overlap = 0.50]
+[2019-03-19 01:01:54, INFO, map_parallel] Using '6' threads for '690' args
+[2019-03-19 01:10:44, INFO, evaluate] ground truth proposals: 185
+[2019-03-19 01:10:44, INFO, evaluate] external_proposals dtp: 9399
+[2019-03-19 01:10:47, INFO, evaluate] ground truth proposals: 160
+[2019-03-19 01:10:47, INFO, evaluate] external_proposals dtp: 10730
+[2019-03-19 01:10:50, INFO, evaluate] ground truth proposals: 178
+[2019-03-19 01:10:50, INFO, evaluate] external_proposals dtp: 8228
+[2019-03-19 01:10:53, INFO, evaluate] ground truth proposals: 173
+[2019-03-19 01:10:53, INFO, evaluate] external_proposals dtp: 9341
+[2019-03-19 01:10:56, INFO, evaluate] ground truth proposals: 177
+[2019-03-19 01:10:56, INFO, evaluate] external_proposals dtp: 6388
+[2019-03-19 01:10:58, INFO, evaluate] ground truth proposals: 163
+[2019-03-19 01:10:58, INFO, evaluate] external_proposals dtp: 10178
+[2019-03-19 01:11:01, INFO, evaluate] ground truth proposals: 112
+[2019-03-19 01:11:01, INFO, evaluate] external_proposals dtp: 10171
+[2019-03-19 01:11:04, INFO, evaluate] ground truth proposals: 198
+[2019-03-19 01:11:04, INFO, evaluate] external_proposals dtp: 9488
+[2019-03-19 01:11:07, INFO, evaluate] ground truth proposals: 121
+[2019-03-19 01:11:07, INFO, evaluate] external_proposals dtp: 11185
+[2019-03-19 01:11:11, INFO, evaluate] ground truth proposals: 188
+[2019-03-19 01:11:11, INFO, evaluate] external_proposals dtp: 5338
+[2019-03-19 01:11:19, INFO, evaluate] Calculate mAPs
+[2019-03-19 01:11:19, INFO, evaluate] mAP parallel: qbe [overlap = 0.25]
+[2019-03-19 01:11:19, INFO, map_parallel] Using '6' threads for '1655' args
+[2019-03-19 01:11:23, INFO, evaluate] mAP parallel: qbs [overlap = 0.25]
+[2019-03-19 01:11:23, INFO, map_parallel] Using '6' threads for '690' args
+[2019-03-19 01:11:25, INFO, evaluate] mAP parallel: qbe [overlap = 0.50]
+[2019-03-19 01:11:25, INFO, map_parallel] Using '6' threads for '1655' args
+[2019-03-19 01:11:28, INFO, evaluate] mAP parallel: qbs [overlap = 0.50]
+[2019-03-19 01:11:28, INFO, map_parallel] Using '6' threads for '690' args
+[2019-03-19 01:20:16, INFO, evaluate] ground truth proposals: 185
+[2019-03-19 01:20:16, INFO, evaluate] external_proposals dtp: 9399
+[2019-03-19 01:20:19, INFO, evaluate] ground truth proposals: 160
+[2019-03-19 01:20:19, INFO, evaluate] external_proposals dtp: 10730
+[2019-03-19 01:20:22, INFO, evaluate] ground truth proposals: 178
+[2019-03-19 01:20:22, INFO, evaluate] external_proposals dtp: 8228
+[2019-03-19 01:20:25, INFO, evaluate] ground truth proposals: 173
+[2019-03-19 01:20:25, INFO, evaluate] external_proposals dtp: 9341
+[2019-03-19 01:20:28, INFO, evaluate] ground truth proposals: 177
+[2019-03-19 01:20:28, INFO, evaluate] external_proposals dtp: 6388
+[2019-03-19 01:20:30, INFO, evaluate] ground truth proposals: 163
+[2019-03-19 01:20:30, INFO, evaluate] external_proposals dtp: 10178
+[2019-03-19 01:20:33, INFO, evaluate] ground truth proposals: 112
+[2019-03-19 01:20:33, INFO, evaluate] external_proposals dtp: 10171
+[2019-03-19 01:20:36, INFO, evaluate] ground truth proposals: 198
+[2019-03-19 01:20:36, INFO, evaluate] external_proposals dtp: 9488
+[2019-03-19 01:20:39, INFO, evaluate] ground truth proposals: 121
+[2019-03-19 01:20:39, INFO, evaluate] external_proposals dtp: 11185
+[2019-03-19 01:20:43, INFO, evaluate] ground truth proposals: 188
+[2019-03-19 01:20:43, INFO, evaluate] external_proposals dtp: 5338
+[2019-03-19 01:20:51, INFO, evaluate] Calculate mAPs
+[2019-03-19 01:20:51, INFO, evaluate] mAP parallel: qbe [overlap = 0.25]
+[2019-03-19 01:20:51, INFO, map_parallel] Using '6' threads for '1655' args
+[2019-03-19 01:20:55, INFO, evaluate] mAP parallel: qbs [overlap = 0.25]
+[2019-03-19 01:20:55, INFO, map_parallel] Using '6' threads for '690' args
+[2019-03-19 01:20:57, INFO, evaluate] mAP parallel: qbe [overlap = 0.50]
+[2019-03-19 01:20:57, INFO, map_parallel] Using '6' threads for '1655' args
+[2019-03-19 01:21:01, INFO, evaluate] mAP parallel: qbs [overlap = 0.50]
+[2019-03-19 01:21:01, INFO, map_parallel] Using '6' threads for '690' args
+[2019-03-19 01:29:50, INFO, evaluate] ground truth proposals: 185
+[2019-03-19 01:29:50, INFO, evaluate] external_proposals dtp: 9399
+[2019-03-19 01:29:53, INFO, evaluate] ground truth proposals: 160
+[2019-03-19 01:29:53, INFO, evaluate] external_proposals dtp: 10730
+[2019-03-19 01:29:56, INFO, evaluate] ground truth proposals: 178
+[2019-03-19 01:29:56, INFO, evaluate] external_proposals dtp: 8228
+[2019-03-19 01:29:59, INFO, evaluate] ground truth proposals: 173
+[2019-03-19 01:29:59, INFO, evaluate] external_proposals dtp: 9341
+[2019-03-19 01:30:02, INFO, evaluate] ground truth proposals: 177
+[2019-03-19 01:30:02, INFO, evaluate] external_proposals dtp: 6388
+[2019-03-19 01:30:04, INFO, evaluate] ground truth proposals: 163
+[2019-03-19 01:30:04, INFO, evaluate] external_proposals dtp: 10178
+[2019-03-19 01:30:07, INFO, evaluate] ground truth proposals: 112
+[2019-03-19 01:30:07, INFO, evaluate] external_proposals dtp: 10171
+[2019-03-19 01:30:10, INFO, evaluate] ground truth proposals: 198
+[2019-03-19 01:30:10, INFO, evaluate] external_proposals dtp: 9488
+[2019-03-19 01:30:13, INFO, evaluate] ground truth proposals: 121
+[2019-03-19 01:30:13, INFO, evaluate] external_proposals dtp: 11185
+[2019-03-19 01:30:17, INFO, evaluate] ground truth proposals: 188
+[2019-03-19 01:30:17, INFO, evaluate] external_proposals dtp: 5338
+[2019-03-19 01:30:25, INFO, evaluate] Calculate mAPs
+[2019-03-19 01:30:25, INFO, evaluate] mAP parallel: qbe [overlap = 0.25]
+[2019-03-19 01:30:25, INFO, map_parallel] Using '6' threads for '1655' args
+[2019-03-19 01:30:29, INFO, evaluate] mAP parallel: qbs [overlap = 0.25]
+[2019-03-19 01:30:29, INFO, map_parallel] Using '6' threads for '690' args
+[2019-03-19 01:30:31, INFO, evaluate] mAP parallel: qbe [overlap = 0.50]
+[2019-03-19 01:30:31, INFO, map_parallel] Using '6' threads for '1655' args
+[2019-03-19 01:30:34, INFO, evaluate] mAP parallel: qbs [overlap = 0.50]
+[2019-03-19 01:30:34, INFO, map_parallel] Using '6' threads for '690' args
+[2019-03-19 01:39:21, INFO, evaluate] ground truth proposals: 185
+[2019-03-19 01:39:21, INFO, evaluate] external_proposals dtp: 9399
+[2019-03-19 01:39:24, INFO, evaluate] ground truth proposals: 160
+[2019-03-19 01:39:24, INFO, evaluate] external_proposals dtp: 10730
+[2019-03-19 01:39:27, INFO, evaluate] ground truth proposals: 178
+[2019-03-19 01:39:27, INFO, evaluate] external_proposals dtp: 8228
+[2019-03-19 01:39:30, INFO, evaluate] ground truth proposals: 173
+[2019-03-19 01:39:30, INFO, evaluate] external_proposals dtp: 9341
+[2019-03-19 01:39:33, INFO, evaluate] ground truth proposals: 177
+[2019-03-19 01:39:33, INFO, evaluate] external_proposals dtp: 6388
+[2019-03-19 01:39:35, INFO, evaluate] ground truth proposals: 163
+[2019-03-19 01:39:35, INFO, evaluate] external_proposals dtp: 10178
+[2019-03-19 01:39:38, INFO, evaluate] ground truth proposals: 112
+[2019-03-19 01:39:38, INFO, evaluate] external_proposals dtp: 10171
+[2019-03-19 01:39:41, INFO, evaluate] ground truth proposals: 198
+[2019-03-19 01:39:41, INFO, evaluate] external_proposals dtp: 9488
+[2019-03-19 01:39:44, INFO, evaluate] ground truth proposals: 121
+[2019-03-19 01:39:44, INFO, evaluate] external_proposals dtp: 11185
+[2019-03-19 01:39:48, INFO, evaluate] ground truth proposals: 188
+[2019-03-19 01:39:48, INFO, evaluate] external_proposals dtp: 5338
+[2019-03-19 01:39:56, INFO, evaluate] Calculate mAPs
+[2019-03-19 01:39:56, INFO, evaluate] mAP parallel: qbe [overlap = 0.25]
+[2019-03-19 01:39:56, INFO, map_parallel] Using '6' threads for '1655' args
+[2019-03-19 01:40:00, INFO, evaluate] mAP parallel: qbs [overlap = 0.25]
+[2019-03-19 01:40:00, INFO, map_parallel] Using '6' threads for '690' args
+[2019-03-19 01:40:02, INFO, evaluate] mAP parallel: qbe [overlap = 0.50]
+[2019-03-19 01:40:02, INFO, map_parallel] Using '6' threads for '1655' args
+[2019-03-19 01:40:05, INFO, evaluate] mAP parallel: qbs [overlap = 0.50]
+[2019-03-19 01:40:05, INFO, map_parallel] Using '6' threads for '690' args
+[2019-03-19 01:48:55, INFO, evaluate] ground truth proposals: 185
+[2019-03-19 01:48:55, INFO, evaluate] external_proposals dtp: 9399
+[2019-03-19 01:48:58, INFO, evaluate] ground truth proposals: 160
+[2019-03-19 01:48:58, INFO, evaluate] external_proposals dtp: 10730
+[2019-03-19 01:49:01, INFO, evaluate] ground truth proposals: 178
+[2019-03-19 01:49:01, INFO, evaluate] external_proposals dtp: 8228
+[2019-03-19 01:49:04, INFO, evaluate] ground truth proposals: 173
+[2019-03-19 01:49:04, INFO, evaluate] external_proposals dtp: 9341
+[2019-03-19 01:49:07, INFO, evaluate] ground truth proposals: 177
+[2019-03-19 01:49:07, INFO, evaluate] external_proposals dtp: 6388
+[2019-03-19 01:49:09, INFO, evaluate] ground truth proposals: 163
+[2019-03-19 01:49:09, INFO, evaluate] external_proposals dtp: 10178
+[2019-03-19 01:49:12, INFO, evaluate] ground truth proposals: 112
+[2019-03-19 01:49:12, INFO, evaluate] external_proposals dtp: 10171
+[2019-03-19 01:49:16, INFO, evaluate] ground truth proposals: 198
+[2019-03-19 01:49:16, INFO, evaluate] external_proposals dtp: 9488
+[2019-03-19 01:49:19, INFO, evaluate] ground truth proposals: 121
+[2019-03-19 01:49:19, INFO, evaluate] external_proposals dtp: 11185
+[2019-03-19 01:49:22, INFO, evaluate] ground truth proposals: 188
+[2019-03-19 01:49:22, INFO, evaluate] external_proposals dtp: 5338
+[2019-03-19 01:49:30, INFO, evaluate] Calculate mAPs
+[2019-03-19 01:49:30, INFO, evaluate] mAP parallel: qbe [overlap = 0.25]
+[2019-03-19 01:49:31, INFO, map_parallel] Using '6' threads for '1655' args
+[2019-03-19 01:49:34, INFO, evaluate] mAP parallel: qbs [overlap = 0.25]
+[2019-03-19 01:49:34, INFO, map_parallel] Using '6' threads for '690' args
+[2019-03-19 01:49:36, INFO, evaluate] mAP parallel: qbe [overlap = 0.50]
+[2019-03-19 01:49:36, INFO, map_parallel] Using '6' threads for '1655' args
+[2019-03-19 01:49:40, INFO, evaluate] mAP parallel: qbs [overlap = 0.50]
+[2019-03-19 01:49:40, INFO, map_parallel] Using '6' threads for '690' args
+[2019-03-19 01:58:26, INFO, evaluate] ground truth proposals: 185
+[2019-03-19 01:58:26, INFO, evaluate] external_proposals dtp: 9399
+[2019-03-19 01:58:29, INFO, evaluate] ground truth proposals: 160
+[2019-03-19 01:58:29, INFO, evaluate] external_proposals dtp: 10730
+[2019-03-19 01:58:32, INFO, evaluate] ground truth proposals: 178
+[2019-03-19 01:58:32, INFO, evaluate] external_proposals dtp: 8228
+[2019-03-19 01:58:35, INFO, evaluate] ground truth proposals: 173
+[2019-03-19 01:58:35, INFO, evaluate] external_proposals dtp: 9341
+[2019-03-19 01:58:38, INFO, evaluate] ground truth proposals: 177
+[2019-03-19 01:58:38, INFO, evaluate] external_proposals dtp: 6388
+[2019-03-19 01:58:40, INFO, evaluate] ground truth proposals: 163
+[2019-03-19 01:58:40, INFO, evaluate] external_proposals dtp: 10178
+[2019-03-19 01:58:43, INFO, evaluate] ground truth proposals: 112
+[2019-03-19 01:58:43, INFO, evaluate] external_proposals dtp: 10171
+[2019-03-19 01:58:46, INFO, evaluate] ground truth proposals: 198
+[2019-03-19 01:58:46, INFO, evaluate] external_proposals dtp: 9488
+[2019-03-19 01:58:49, INFO, evaluate] ground truth proposals: 121
+[2019-03-19 01:58:49, INFO, evaluate] external_proposals dtp: 11185
+[2019-03-19 01:58:53, INFO, evaluate] ground truth proposals: 188
+[2019-03-19 01:58:53, INFO, evaluate] external_proposals dtp: 5338
+[2019-03-19 01:59:01, INFO, evaluate] Calculate mAPs
+[2019-03-19 01:59:01, INFO, evaluate] mAP parallel: qbe [overlap = 0.25]
+[2019-03-19 01:59:01, INFO, map_parallel] Using '6' threads for '1655' args
+[2019-03-19 01:59:04, INFO, evaluate] mAP parallel: qbs [overlap = 0.25]
+[2019-03-19 01:59:04, INFO, map_parallel] Using '6' threads for '690' args
+[2019-03-19 01:59:06, INFO, evaluate] mAP parallel: qbe [overlap = 0.50]
+[2019-03-19 01:59:06, INFO, map_parallel] Using '6' threads for '1655' args
+[2019-03-19 01:59:09, INFO, evaluate] mAP parallel: qbs [overlap = 0.50]
+[2019-03-19 01:59:09, INFO, map_parallel] Using '6' threads for '690' args
+[2019-03-19 02:07:55, INFO, evaluate] ground truth proposals: 185
+[2019-03-19 02:07:55, INFO, evaluate] external_proposals dtp: 9399
+[2019-03-19 02:07:58, INFO, evaluate] ground truth proposals: 160
+[2019-03-19 02:07:58, INFO, evaluate] external_proposals dtp: 10730
+[2019-03-19 02:08:01, INFO, evaluate] ground truth proposals: 178
+[2019-03-19 02:08:01, INFO, evaluate] external_proposals dtp: 8228
+[2019-03-19 02:08:04, INFO, evaluate] ground truth proposals: 173
+[2019-03-19 02:08:04, INFO, evaluate] external_proposals dtp: 9341
+[2019-03-19 02:08:07, INFO, evaluate] ground truth proposals: 177
+[2019-03-19 02:08:07, INFO, evaluate] external_proposals dtp: 6388
+[2019-03-19 02:08:09, INFO, evaluate] ground truth proposals: 163
+[2019-03-19 02:08:09, INFO, evaluate] external_proposals dtp: 10178
+[2019-03-19 02:08:12, INFO, evaluate] ground truth proposals: 112
+[2019-03-19 02:08:12, INFO, evaluate] external_proposals dtp: 10171
+[2019-03-19 02:08:15, INFO, evaluate] ground truth proposals: 198
+[2019-03-19 02:08:15, INFO, evaluate] external_proposals dtp: 9488
+[2019-03-19 02:08:18, INFO, evaluate] ground truth proposals: 121
+[2019-03-19 02:08:18, INFO, evaluate] external_proposals dtp: 11185
+[2019-03-19 02:08:22, INFO, evaluate] ground truth proposals: 188
+[2019-03-19 02:08:22, INFO, evaluate] external_proposals dtp: 5338
+[2019-03-19 02:08:30, INFO, evaluate] Calculate mAPs
+[2019-03-19 02:08:30, INFO, evaluate] mAP parallel: qbe [overlap = 0.25]
+[2019-03-19 02:08:30, INFO, map_parallel] Using '6' threads for '1655' args
+[2019-03-19 02:08:33, INFO, evaluate] mAP parallel: qbs [overlap = 0.25]
+[2019-03-19 02:08:33, INFO, map_parallel] Using '6' threads for '690' args
+[2019-03-19 02:08:35, INFO, evaluate] mAP parallel: qbe [overlap = 0.50]
+[2019-03-19 02:08:35, INFO, map_parallel] Using '6' threads for '1655' args
+[2019-03-19 02:08:38, INFO, evaluate] mAP parallel: qbs [overlap = 0.50]
+[2019-03-19 02:08:38, INFO, map_parallel] Using '6' threads for '690' args
+[2019-03-19 02:17:25, INFO, evaluate] ground truth proposals: 185
+[2019-03-19 02:17:25, INFO, evaluate] external_proposals dtp: 9399
+[2019-03-19 02:17:28, INFO, evaluate] ground truth proposals: 160
+[2019-03-19 02:17:28, INFO, evaluate] external_proposals dtp: 10730
+[2019-03-19 02:17:31, INFO, evaluate] ground truth proposals: 178
+[2019-03-19 02:17:31, INFO, evaluate] external_proposals dtp: 8228
+[2019-03-19 02:17:34, INFO, evaluate] ground truth proposals: 173
+[2019-03-19 02:17:34, INFO, evaluate] external_proposals dtp: 9341
+[2019-03-19 02:17:37, INFO, evaluate] ground truth proposals: 177
+[2019-03-19 02:17:37, INFO, evaluate] external_proposals dtp: 6388
+[2019-03-19 02:17:39, INFO, evaluate] ground truth proposals: 163
+[2019-03-19 02:17:39, INFO, evaluate] external_proposals dtp: 10178
+[2019-03-19 02:17:42, INFO, evaluate] ground truth proposals: 112
+[2019-03-19 02:17:42, INFO, evaluate] external_proposals dtp: 10171
+[2019-03-19 02:17:45, INFO, evaluate] ground truth proposals: 198
+[2019-03-19 02:17:45, INFO, evaluate] external_proposals dtp: 9488
+[2019-03-19 02:17:48, INFO, evaluate] ground truth proposals: 121
+[2019-03-19 02:17:48, INFO, evaluate] external_proposals dtp: 11185
+[2019-03-19 02:17:52, INFO, evaluate] ground truth proposals: 188
+[2019-03-19 02:17:52, INFO, evaluate] external_proposals dtp: 5338
+[2019-03-19 02:18:00, INFO, evaluate] Calculate mAPs
+[2019-03-19 02:18:00, INFO, evaluate] mAP parallel: qbe [overlap = 0.25]
+[2019-03-19 02:18:00, INFO, map_parallel] Using '6' threads for '1655' args
+[2019-03-19 02:18:03, INFO, evaluate] mAP parallel: qbs [overlap = 0.25]
+[2019-03-19 02:18:03, INFO, map_parallel] Using '6' threads for '690' args
+[2019-03-19 02:18:05, INFO, evaluate] mAP parallel: qbe [overlap = 0.50]
+[2019-03-19 02:18:05, INFO, map_parallel] Using '6' threads for '1655' args
+[2019-03-19 02:18:08, INFO, evaluate] mAP parallel: qbs [overlap = 0.50]
+[2019-03-19 02:18:08, INFO, map_parallel] Using '6' threads for '690' args
+[2019-03-19 02:26:54, INFO, evaluate] ground truth proposals: 185
+[2019-03-19 02:26:54, INFO, evaluate] external_proposals dtp: 9399
+[2019-03-19 02:26:57, INFO, evaluate] ground truth proposals: 160
+[2019-03-19 02:26:57, INFO, evaluate] external_proposals dtp: 10730
+[2019-03-19 02:27:01, INFO, evaluate] ground truth proposals: 178
+[2019-03-19 02:27:01, INFO, evaluate] external_proposals dtp: 8228
+[2019-03-19 02:27:03, INFO, evaluate] ground truth proposals: 173
+[2019-03-19 02:27:03, INFO, evaluate] external_proposals dtp: 9341
+[2019-03-19 02:27:06, INFO, evaluate] ground truth proposals: 177
+[2019-03-19 02:27:06, INFO, evaluate] external_proposals dtp: 6388
+[2019-03-19 02:27:08, INFO, evaluate] ground truth proposals: 163
+[2019-03-19 02:27:08, INFO, evaluate] external_proposals dtp: 10178
+[2019-03-19 02:27:12, INFO, evaluate] ground truth proposals: 112
+[2019-03-19 02:27:12, INFO, evaluate] external_proposals dtp: 10171
+[2019-03-19 02:27:15, INFO, evaluate] ground truth proposals: 198
+[2019-03-19 02:27:15, INFO, evaluate] external_proposals dtp: 9488
+[2019-03-19 02:27:18, INFO, evaluate] ground truth proposals: 121
+[2019-03-19 02:27:18, INFO, evaluate] external_proposals dtp: 11185
+[2019-03-19 02:27:21, INFO, evaluate] ground truth proposals: 188
+[2019-03-19 02:27:21, INFO, evaluate] external_proposals dtp: 5338
+[2019-03-19 02:27:29, INFO, evaluate] Calculate mAPs
+[2019-03-19 02:27:29, INFO, evaluate] mAP parallel: qbe [overlap = 0.25]
+[2019-03-19 02:27:29, INFO, map_parallel] Using '6' threads for '1655' args
+[2019-03-19 02:27:33, INFO, evaluate] mAP parallel: qbs [overlap = 0.25]
+[2019-03-19 02:27:33, INFO, map_parallel] Using '6' threads for '690' args
+[2019-03-19 02:27:35, INFO, evaluate] mAP parallel: qbe [overlap = 0.50]
+[2019-03-19 02:27:35, INFO, map_parallel] Using '6' threads for '1655' args
+[2019-03-19 02:27:38, INFO, evaluate] mAP parallel: qbs [overlap = 0.50]
+[2019-03-19 02:27:38, INFO, map_parallel] Using '6' threads for '690' args
+[2019-03-19 02:36:23, INFO, evaluate] ground truth proposals: 185
+[2019-03-19 02:36:23, INFO, evaluate] external_proposals dtp: 9399
+[2019-03-19 02:36:26, INFO, evaluate] ground truth proposals: 160
+[2019-03-19 02:36:26, INFO, evaluate] external_proposals dtp: 10730
+[2019-03-19 02:36:30, INFO, evaluate] ground truth proposals: 178
+[2019-03-19 02:36:30, INFO, evaluate] external_proposals dtp: 8228
+[2019-03-19 02:36:32, INFO, evaluate] ground truth proposals: 173
+[2019-03-19 02:36:32, INFO, evaluate] external_proposals dtp: 9341
+[2019-03-19 02:36:35, INFO, evaluate] ground truth proposals: 177
+[2019-03-19 02:36:35, INFO, evaluate] external_proposals dtp: 6388
+[2019-03-19 02:36:37, INFO, evaluate] ground truth proposals: 163
+[2019-03-19 02:36:37, INFO, evaluate] external_proposals dtp: 10178
+[2019-03-19 02:36:41, INFO, evaluate] ground truth proposals: 112
+[2019-03-19 02:36:41, INFO, evaluate] external_proposals dtp: 10171
+[2019-03-19 02:36:44, INFO, evaluate] ground truth proposals: 198
+[2019-03-19 02:36:44, INFO, evaluate] external_proposals dtp: 9488
+[2019-03-19 02:36:47, INFO, evaluate] ground truth proposals: 121
+[2019-03-19 02:36:47, INFO, evaluate] external_proposals dtp: 11185
+[2019-03-19 02:36:50, INFO, evaluate] ground truth proposals: 188
+[2019-03-19 02:36:50, INFO, evaluate] external_proposals dtp: 5338
+[2019-03-19 02:36:59, INFO, evaluate] Calculate mAPs
+[2019-03-19 02:36:59, INFO, evaluate] mAP parallel: qbe [overlap = 0.25]
+[2019-03-19 02:36:59, INFO, map_parallel] Using '6' threads for '1655' args
+[2019-03-19 02:37:02, INFO, evaluate] mAP parallel: qbs [overlap = 0.25]
+[2019-03-19 02:37:02, INFO, map_parallel] Using '6' threads for '690' args
+[2019-03-19 02:37:04, INFO, evaluate] mAP parallel: qbe [overlap = 0.50]
+[2019-03-19 02:37:04, INFO, map_parallel] Using '6' threads for '1655' args
+[2019-03-19 02:37:07, INFO, evaluate] mAP parallel: qbs [overlap = 0.50]
+[2019-03-19 02:37:07, INFO, map_parallel] Using '6' threads for '690' args
+[2019-03-19 02:45:53, INFO, evaluate] ground truth proposals: 185
+[2019-03-19 02:45:53, INFO, evaluate] external_proposals dtp: 9399
+[2019-03-19 02:45:56, INFO, evaluate] ground truth proposals: 160
+[2019-03-19 02:45:56, INFO, evaluate] external_proposals dtp: 10730
+[2019-03-19 02:45:59, INFO, evaluate] ground truth proposals: 178
+[2019-03-19 02:45:59, INFO, evaluate] external_proposals dtp: 8228
+[2019-03-19 02:46:02, INFO, evaluate] ground truth proposals: 173
+[2019-03-19 02:46:02, INFO, evaluate] external_proposals dtp: 9341
+[2019-03-19 02:46:05, INFO, evaluate] ground truth proposals: 177
+[2019-03-19 02:46:05, INFO, evaluate] external_proposals dtp: 6388
+[2019-03-19 02:46:07, INFO, evaluate] ground truth proposals: 163
+[2019-03-19 02:46:07, INFO, evaluate] external_proposals dtp: 10178
+[2019-03-19 02:46:10, INFO, evaluate] ground truth proposals: 112
+[2019-03-19 02:46:10, INFO, evaluate] external_proposals dtp: 10171
+[2019-03-19 02:46:13, INFO, evaluate] ground truth proposals: 198
+[2019-03-19 02:46:13, INFO, evaluate] external_proposals dtp: 9488
+[2019-03-19 02:46:17, INFO, evaluate] ground truth proposals: 121
+[2019-03-19 02:46:17, INFO, evaluate] external_proposals dtp: 11185
+[2019-03-19 02:46:20, INFO, evaluate] ground truth proposals: 188
+[2019-03-19 02:46:20, INFO, evaluate] external_proposals dtp: 5338
+[2019-03-19 02:46:28, INFO, evaluate] Calculate mAPs
+[2019-03-19 02:46:28, INFO, evaluate] mAP parallel: qbe [overlap = 0.25]
+[2019-03-19 02:46:28, INFO, map_parallel] Using '6' threads for '1655' args
+[2019-03-19 02:46:32, INFO, evaluate] mAP parallel: qbs [overlap = 0.25]
+[2019-03-19 02:46:32, INFO, map_parallel] Using '6' threads for '690' args
+[2019-03-19 02:46:33, INFO, evaluate] mAP parallel: qbe [overlap = 0.50]
+[2019-03-19 02:46:33, INFO, map_parallel] Using '6' threads for '1655' args
+[2019-03-19 02:46:37, INFO, evaluate] mAP parallel: qbs [overlap = 0.50]
+[2019-03-19 02:46:37, INFO, map_parallel] Using '6' threads for '690' args
+[2019-03-19 02:55:23, INFO, evaluate] ground truth proposals: 185
+[2019-03-19 02:55:23, INFO, evaluate] external_proposals dtp: 9399
+[2019-03-19 02:55:26, INFO, evaluate] ground truth proposals: 160
+[2019-03-19 02:55:26, INFO, evaluate] external_proposals dtp: 10730
+[2019-03-19 02:55:30, INFO, evaluate] ground truth proposals: 178
+[2019-03-19 02:55:30, INFO, evaluate] external_proposals dtp: 8228
+[2019-03-19 02:55:32, INFO, evaluate] ground truth proposals: 173
+[2019-03-19 02:55:32, INFO, evaluate] external_proposals dtp: 9341
+[2019-03-19 02:55:35, INFO, evaluate] ground truth proposals: 177
+[2019-03-19 02:55:35, INFO, evaluate] external_proposals dtp: 6388
+[2019-03-19 02:55:37, INFO, evaluate] ground truth proposals: 163
+[2019-03-19 02:55:37, INFO, evaluate] external_proposals dtp: 10178
+[2019-03-19 02:55:40, INFO, evaluate] ground truth proposals: 112
+[2019-03-19 02:55:40, INFO, evaluate] external_proposals dtp: 10171
+[2019-03-19 02:55:44, INFO, evaluate] ground truth proposals: 198
+[2019-03-19 02:55:44, INFO, evaluate] external_proposals dtp: 9488
+[2019-03-19 02:55:47, INFO, evaluate] ground truth proposals: 121
+[2019-03-19 02:55:47, INFO, evaluate] external_proposals dtp: 11185
+[2019-03-19 02:55:50, INFO, evaluate] ground truth proposals: 188
+[2019-03-19 02:55:50, INFO, evaluate] external_proposals dtp: 5338
+[2019-03-19 02:55:58, INFO, evaluate] Calculate mAPs
+[2019-03-19 02:55:58, INFO, evaluate] mAP parallel: qbe [overlap = 0.25]
+[2019-03-19 02:55:58, INFO, map_parallel] Using '6' threads for '1655' args
+[2019-03-19 02:56:02, INFO, evaluate] mAP parallel: qbs [overlap = 0.25]
+[2019-03-19 02:56:02, INFO, map_parallel] Using '6' threads for '690' args
+[2019-03-19 02:56:04, INFO, evaluate] mAP parallel: qbe [overlap = 0.50]
+[2019-03-19 02:56:04, INFO, map_parallel] Using '6' threads for '1655' args
+[2019-03-19 02:56:07, INFO, evaluate] mAP parallel: qbs [overlap = 0.50]
+[2019-03-19 02:56:07, INFO, map_parallel] Using '6' threads for '690' args
+[2019-03-19 03:04:54, INFO, evaluate] ground truth proposals: 185
+[2019-03-19 03:04:54, INFO, evaluate] external_proposals dtp: 9399
+[2019-03-19 03:04:57, INFO, evaluate] ground truth proposals: 160
+[2019-03-19 03:04:57, INFO, evaluate] external_proposals dtp: 10730
+[2019-03-19 03:05:00, INFO, evaluate] ground truth proposals: 178
+[2019-03-19 03:05:00, INFO, evaluate] external_proposals dtp: 8228
+[2019-03-19 03:05:03, INFO, evaluate] ground truth proposals: 173
+[2019-03-19 03:05:03, INFO, evaluate] external_proposals dtp: 9341
+[2019-03-19 03:05:06, INFO, evaluate] ground truth proposals: 177
+[2019-03-19 03:05:06, INFO, evaluate] external_proposals dtp: 6388
+[2019-03-19 03:05:08, INFO, evaluate] ground truth proposals: 163
+[2019-03-19 03:05:08, INFO, evaluate] external_proposals dtp: 10178
+[2019-03-19 03:05:11, INFO, evaluate] ground truth proposals: 112
+[2019-03-19 03:05:11, INFO, evaluate] external_proposals dtp: 10171
+[2019-03-19 03:05:14, INFO, evaluate] ground truth proposals: 198
+[2019-03-19 03:05:14, INFO, evaluate] external_proposals dtp: 9488
+[2019-03-19 03:05:17, INFO, evaluate] ground truth proposals: 121
+[2019-03-19 03:05:17, INFO, evaluate] external_proposals dtp: 11185
+[2019-03-19 03:05:21, INFO, evaluate] ground truth proposals: 188
+[2019-03-19 03:05:21, INFO, evaluate] external_proposals dtp: 5338
+[2019-03-19 03:05:29, INFO, evaluate] Calculate mAPs
+[2019-03-19 03:05:29, INFO, evaluate] mAP parallel: qbe [overlap = 0.25]
+[2019-03-19 03:05:29, INFO, map_parallel] Using '6' threads for '1655' args
+[2019-03-19 03:05:32, INFO, evaluate] mAP parallel: qbs [overlap = 0.25]
+[2019-03-19 03:05:32, INFO, map_parallel] Using '6' threads for '690' args
+[2019-03-19 03:05:34, INFO, evaluate] mAP parallel: qbe [overlap = 0.50]
+[2019-03-19 03:05:34, INFO, map_parallel] Using '6' threads for '1655' args
+[2019-03-19 03:05:37, INFO, evaluate] mAP parallel: qbs [overlap = 0.50]
+[2019-03-19 03:05:37, INFO, map_parallel] Using '6' threads for '690' args
+[2019-03-19 03:14:23, INFO, evaluate] ground truth proposals: 185
+[2019-03-19 03:14:23, INFO, evaluate] external_proposals dtp: 9399
+[2019-03-19 03:14:26, INFO, evaluate] ground truth proposals: 160
+[2019-03-19 03:14:26, INFO, evaluate] external_proposals dtp: 10730
+[2019-03-19 03:14:29, INFO, evaluate] ground truth proposals: 178
+[2019-03-19 03:14:29, INFO, evaluate] external_proposals dtp: 8228
+[2019-03-19 03:14:32, INFO, evaluate] ground truth proposals: 173
+[2019-03-19 03:14:32, INFO, evaluate] external_proposals dtp: 9341
+[2019-03-19 03:14:35, INFO, evaluate] ground truth proposals: 177
+[2019-03-19 03:14:35, INFO, evaluate] external_proposals dtp: 6388
+[2019-03-19 03:14:37, INFO, evaluate] ground truth proposals: 163
+[2019-03-19 03:14:37, INFO, evaluate] external_proposals dtp: 10178
+[2019-03-19 03:14:40, INFO, evaluate] ground truth proposals: 112
+[2019-03-19 03:14:40, INFO, evaluate] external_proposals dtp: 10171
+[2019-03-19 03:14:43, INFO, evaluate] ground truth proposals: 198
+[2019-03-19 03:14:43, INFO, evaluate] external_proposals dtp: 9488
+[2019-03-19 03:14:46, INFO, evaluate] ground truth proposals: 121
+[2019-03-19 03:14:46, INFO, evaluate] external_proposals dtp: 11185
+[2019-03-19 03:14:50, INFO, evaluate] ground truth proposals: 188
+[2019-03-19 03:14:50, INFO, evaluate] external_proposals dtp: 5338
+[2019-03-19 03:14:58, INFO, evaluate] Calculate mAPs
+[2019-03-19 03:14:58, INFO, evaluate] mAP parallel: qbe [overlap = 0.25]
+[2019-03-19 03:14:58, INFO, map_parallel] Using '6' threads for '1655' args
+[2019-03-19 03:15:01, INFO, evaluate] mAP parallel: qbs [overlap = 0.25]
+[2019-03-19 03:15:01, INFO, map_parallel] Using '6' threads for '690' args
+[2019-03-19 03:15:03, INFO, evaluate] mAP parallel: qbe [overlap = 0.50]
+[2019-03-19 03:15:03, INFO, map_parallel] Using '6' threads for '1655' args
+[2019-03-19 03:15:06, INFO, evaluate] mAP parallel: qbs [overlap = 0.50]
+[2019-03-19 03:15:06, INFO, map_parallel] Using '6' threads for '690' args
+[2019-03-19 03:23:53, INFO, evaluate] ground truth proposals: 185
+[2019-03-19 03:23:53, INFO, evaluate] external_proposals dtp: 9399
+[2019-03-19 03:23:56, INFO, evaluate] ground truth proposals: 160
+[2019-03-19 03:23:56, INFO, evaluate] external_proposals dtp: 10730
+[2019-03-19 03:23:59, INFO, evaluate] ground truth proposals: 178
+[2019-03-19 03:23:59, INFO, evaluate] external_proposals dtp: 8228
+[2019-03-19 03:24:02, INFO, evaluate] ground truth proposals: 173
+[2019-03-19 03:24:02, INFO, evaluate] external_proposals dtp: 9341
+[2019-03-19 03:24:05, INFO, evaluate] ground truth proposals: 177
+[2019-03-19 03:24:05, INFO, evaluate] external_proposals dtp: 6388
+[2019-03-19 03:24:07, INFO, evaluate] ground truth proposals: 163
+[2019-03-19 03:24:07, INFO, evaluate] external_proposals dtp: 10178
+[2019-03-19 03:24:10, INFO, evaluate] ground truth proposals: 112
+[2019-03-19 03:24:10, INFO, evaluate] external_proposals dtp: 10171
+[2019-03-19 03:24:13, INFO, evaluate] ground truth proposals: 198
+[2019-03-19 03:24:13, INFO, evaluate] external_proposals dtp: 9488
+[2019-03-19 03:24:16, INFO, evaluate] ground truth proposals: 121
+[2019-03-19 03:24:16, INFO, evaluate] external_proposals dtp: 11185
+[2019-03-19 03:24:20, INFO, evaluate] ground truth proposals: 188
+[2019-03-19 03:24:20, INFO, evaluate] external_proposals dtp: 5338
+[2019-03-19 03:24:28, INFO, evaluate] Calculate mAPs
+[2019-03-19 03:24:28, INFO, evaluate] mAP parallel: qbe [overlap = 0.25]
+[2019-03-19 03:24:28, INFO, map_parallel] Using '6' threads for '1655' args
+[2019-03-19 03:24:31, INFO, evaluate] mAP parallel: qbs [overlap = 0.25]
+[2019-03-19 03:24:31, INFO, map_parallel] Using '6' threads for '690' args
+[2019-03-19 03:24:33, INFO, evaluate] mAP parallel: qbe [overlap = 0.50]
+[2019-03-19 03:24:33, INFO, map_parallel] Using '6' threads for '1655' args
+[2019-03-19 03:24:36, INFO, evaluate] mAP parallel: qbs [overlap = 0.50]
+[2019-03-19 03:24:36, INFO, map_parallel] Using '6' threads for '690' args
+[2019-03-19 03:33:23, INFO, evaluate] ground truth proposals: 185
+[2019-03-19 03:33:23, INFO, evaluate] external_proposals dtp: 9399
+[2019-03-19 03:33:26, INFO, evaluate] ground truth proposals: 160
+[2019-03-19 03:33:26, INFO, evaluate] external_proposals dtp: 10730
+[2019-03-19 03:33:29, INFO, evaluate] ground truth proposals: 178
+[2019-03-19 03:33:29, INFO, evaluate] external_proposals dtp: 8228
+[2019-03-19 03:33:32, INFO, evaluate] ground truth proposals: 173
+[2019-03-19 03:33:32, INFO, evaluate] external_proposals dtp: 9341
+[2019-03-19 03:33:35, INFO, evaluate] ground truth proposals: 177
+[2019-03-19 03:33:35, INFO, evaluate] external_proposals dtp: 6388
+[2019-03-19 03:33:37, INFO, evaluate] ground truth proposals: 163
+[2019-03-19 03:33:37, INFO, evaluate] external_proposals dtp: 10178
+[2019-03-19 03:33:40, INFO, evaluate] ground truth proposals: 112
+[2019-03-19 03:33:40, INFO, evaluate] external_proposals dtp: 10171
+[2019-03-19 03:33:43, INFO, evaluate] ground truth proposals: 198
+[2019-03-19 03:33:43, INFO, evaluate] external_proposals dtp: 9488
+[2019-03-19 03:33:46, INFO, evaluate] ground truth proposals: 121
+[2019-03-19 03:33:46, INFO, evaluate] external_proposals dtp: 11185
+[2019-03-19 03:33:50, INFO, evaluate] ground truth proposals: 188
+[2019-03-19 03:33:50, INFO, evaluate] external_proposals dtp: 5338
+[2019-03-19 03:33:58, INFO, evaluate] Calculate mAPs
+[2019-03-19 03:33:58, INFO, evaluate] mAP parallel: qbe [overlap = 0.25]
+[2019-03-19 03:33:58, INFO, map_parallel] Using '6' threads for '1655' args
+[2019-03-19 03:34:01, INFO, evaluate] mAP parallel: qbs [overlap = 0.25]
+[2019-03-19 03:34:01, INFO, map_parallel] Using '6' threads for '690' args
+[2019-03-19 03:34:03, INFO, evaluate] mAP parallel: qbe [overlap = 0.50]
+[2019-03-19 03:34:03, INFO, map_parallel] Using '6' threads for '1655' args
+[2019-03-19 03:34:06, INFO, evaluate] mAP parallel: qbs [overlap = 0.50]
+[2019-03-19 03:34:06, INFO, map_parallel] Using '6' threads for '690' args
+[2019-03-19 03:42:51, INFO, evaluate] ground truth proposals: 185
+[2019-03-19 03:42:51, INFO, evaluate] external_proposals dtp: 9399
+[2019-03-19 03:42:54, INFO, evaluate] ground truth proposals: 160
+[2019-03-19 03:42:54, INFO, evaluate] external_proposals dtp: 10730
+[2019-03-19 03:42:57, INFO, evaluate] ground truth proposals: 178
+[2019-03-19 03:42:57, INFO, evaluate] external_proposals dtp: 8228
+[2019-03-19 03:43:00, INFO, evaluate] ground truth proposals: 173
+[2019-03-19 03:43:00, INFO, evaluate] external_proposals dtp: 9341
+[2019-03-19 03:43:03, INFO, evaluate] ground truth proposals: 177
+[2019-03-19 03:43:03, INFO, evaluate] external_proposals dtp: 6388
+[2019-03-19 03:43:05, INFO, evaluate] ground truth proposals: 163
+[2019-03-19 03:43:05, INFO, evaluate] external_proposals dtp: 10178
+[2019-03-19 03:43:08, INFO, evaluate] ground truth proposals: 112
+[2019-03-19 03:43:08, INFO, evaluate] external_proposals dtp: 10171
+[2019-03-19 03:43:11, INFO, evaluate] ground truth proposals: 198
+[2019-03-19 03:43:11, INFO, evaluate] external_proposals dtp: 9488
+[2019-03-19 03:43:14, INFO, evaluate] ground truth proposals: 121
+[2019-03-19 03:43:14, INFO, evaluate] external_proposals dtp: 11185
+[2019-03-19 03:43:18, INFO, evaluate] ground truth proposals: 188
+[2019-03-19 03:43:18, INFO, evaluate] external_proposals dtp: 5338
+[2019-03-19 03:43:26, INFO, evaluate] Calculate mAPs
+[2019-03-19 03:43:26, INFO, evaluate] mAP parallel: qbe [overlap = 0.25]
+[2019-03-19 03:43:26, INFO, map_parallel] Using '6' threads for '1655' args
+[2019-03-19 03:43:29, INFO, evaluate] mAP parallel: qbs [overlap = 0.25]
+[2019-03-19 03:43:29, INFO, map_parallel] Using '6' threads for '690' args
+[2019-03-19 03:43:31, INFO, evaluate] mAP parallel: qbe [overlap = 0.50]
+[2019-03-19 03:43:31, INFO, map_parallel] Using '6' threads for '1655' args
+[2019-03-19 03:43:34, INFO, evaluate] mAP parallel: qbs [overlap = 0.50]
+[2019-03-19 03:43:34, INFO, map_parallel] Using '6' threads for '690' args
+[2019-03-19 03:52:20, INFO, evaluate] ground truth proposals: 185
+[2019-03-19 03:52:20, INFO, evaluate] external_proposals dtp: 9399
+[2019-03-19 03:52:23, INFO, evaluate] ground truth proposals: 160
+[2019-03-19 03:52:23, INFO, evaluate] external_proposals dtp: 10730
+[2019-03-19 03:52:27, INFO, evaluate] ground truth proposals: 178
+[2019-03-19 03:52:27, INFO, evaluate] external_proposals dtp: 8228
+[2019-03-19 03:52:29, INFO, evaluate] ground truth proposals: 173
+[2019-03-19 03:52:29, INFO, evaluate] external_proposals dtp: 9341
+[2019-03-19 03:52:32, INFO, evaluate] ground truth proposals: 177
+[2019-03-19 03:52:32, INFO, evaluate] external_proposals dtp: 6388
+[2019-03-19 03:52:34, INFO, evaluate] ground truth proposals: 163
+[2019-03-19 03:52:34, INFO, evaluate] external_proposals dtp: 10178
+[2019-03-19 03:52:37, INFO, evaluate] ground truth proposals: 112
+[2019-03-19 03:52:37, INFO, evaluate] external_proposals dtp: 10171
+[2019-03-19 03:52:41, INFO, evaluate] ground truth proposals: 198
+[2019-03-19 03:52:41, INFO, evaluate] external_proposals dtp: 9488
+[2019-03-19 03:52:44, INFO, evaluate] ground truth proposals: 121
+[2019-03-19 03:52:44, INFO, evaluate] external_proposals dtp: 11185
+[2019-03-19 03:52:47, INFO, evaluate] ground truth proposals: 188
+[2019-03-19 03:52:47, INFO, evaluate] external_proposals dtp: 5338
+[2019-03-19 03:52:55, INFO, evaluate] Calculate mAPs
+[2019-03-19 03:52:55, INFO, evaluate] mAP parallel: qbe [overlap = 0.25]
+[2019-03-19 03:52:55, INFO, map_parallel] Using '6' threads for '1655' args
+[2019-03-19 03:52:59, INFO, evaluate] mAP parallel: qbs [overlap = 0.25]
+[2019-03-19 03:52:59, INFO, map_parallel] Using '6' threads for '690' args
+[2019-03-19 03:53:00, INFO, evaluate] mAP parallel: qbe [overlap = 0.50]
+[2019-03-19 03:53:00, INFO, map_parallel] Using '6' threads for '1655' args
+[2019-03-19 03:53:04, INFO, evaluate] mAP parallel: qbs [overlap = 0.50]
+[2019-03-19 03:53:04, INFO, map_parallel] Using '6' threads for '690' args
+[2019-03-19 04:01:50, INFO, evaluate] ground truth proposals: 185
+[2019-03-19 04:01:50, INFO, evaluate] external_proposals dtp: 9399
+[2019-03-19 04:01:53, INFO, evaluate] ground truth proposals: 160
+[2019-03-19 04:01:53, INFO, evaluate] external_proposals dtp: 10730
+[2019-03-19 04:01:56, INFO, evaluate] ground truth proposals: 178
+[2019-03-19 04:01:56, INFO, evaluate] external_proposals dtp: 8228
+[2019-03-19 04:01:59, INFO, evaluate] ground truth proposals: 173
+[2019-03-19 04:01:59, INFO, evaluate] external_proposals dtp: 9341
+[2019-03-19 04:02:02, INFO, evaluate] ground truth proposals: 177
+[2019-03-19 04:02:02, INFO, evaluate] external_proposals dtp: 6388
+[2019-03-19 04:02:04, INFO, evaluate] ground truth proposals: 163
+[2019-03-19 04:02:04, INFO, evaluate] external_proposals dtp: 10178
+[2019-03-19 04:02:07, INFO, evaluate] ground truth proposals: 112
+[2019-03-19 04:02:07, INFO, evaluate] external_proposals dtp: 10171
+[2019-03-19 04:02:10, INFO, evaluate] ground truth proposals: 198
+[2019-03-19 04:02:10, INFO, evaluate] external_proposals dtp: 9488
+[2019-03-19 04:02:13, INFO, evaluate] ground truth proposals: 121
+[2019-03-19 04:02:13, INFO, evaluate] external_proposals dtp: 11185
+[2019-03-19 04:02:17, INFO, evaluate] ground truth proposals: 188
+[2019-03-19 04:02:17, INFO, evaluate] external_proposals dtp: 5338
+[2019-03-19 04:02:25, INFO, evaluate] Calculate mAPs
+[2019-03-19 04:02:25, INFO, evaluate] mAP parallel: qbe [overlap = 0.25]
+[2019-03-19 04:02:25, INFO, map_parallel] Using '6' threads for '1655' args
+[2019-03-19 04:02:28, INFO, evaluate] mAP parallel: qbs [overlap = 0.25]
+[2019-03-19 04:02:28, INFO, map_parallel] Using '6' threads for '690' args
+[2019-03-19 04:02:30, INFO, evaluate] mAP parallel: qbe [overlap = 0.50]
+[2019-03-19 04:02:30, INFO, map_parallel] Using '6' threads for '1655' args
+[2019-03-19 04:02:33, INFO, evaluate] mAP parallel: qbs [overlap = 0.50]
+[2019-03-19 04:02:33, INFO, map_parallel] Using '6' threads for '690' args
+[2019-03-19 04:11:19, INFO, evaluate] ground truth proposals: 185
+[2019-03-19 04:11:19, INFO, evaluate] external_proposals dtp: 9399
+[2019-03-19 04:11:22, INFO, evaluate] ground truth proposals: 160
+[2019-03-19 04:11:22, INFO, evaluate] external_proposals dtp: 10730
+[2019-03-19 04:11:25, INFO, evaluate] ground truth proposals: 178
+[2019-03-19 04:11:25, INFO, evaluate] external_proposals dtp: 8228
+[2019-03-19 04:11:28, INFO, evaluate] ground truth proposals: 173
+[2019-03-19 04:11:28, INFO, evaluate] external_proposals dtp: 9341
+[2019-03-19 04:11:31, INFO, evaluate] ground truth proposals: 177
+[2019-03-19 04:11:31, INFO, evaluate] external_proposals dtp: 6388
+[2019-03-19 04:11:33, INFO, evaluate] ground truth proposals: 163
+[2019-03-19 04:11:33, INFO, evaluate] external_proposals dtp: 10178
+[2019-03-19 04:11:36, INFO, evaluate] ground truth proposals: 112
+[2019-03-19 04:11:36, INFO, evaluate] external_proposals dtp: 10171
+[2019-03-19 04:11:39, INFO, evaluate] ground truth proposals: 198
+[2019-03-19 04:11:39, INFO, evaluate] external_proposals dtp: 9488
+[2019-03-19 04:11:43, INFO, evaluate] ground truth proposals: 121
+[2019-03-19 04:11:43, INFO, evaluate] external_proposals dtp: 11185
+[2019-03-19 04:11:46, INFO, evaluate] ground truth proposals: 188
+[2019-03-19 04:11:46, INFO, evaluate] external_proposals dtp: 5338
+[2019-03-19 04:11:54, INFO, evaluate] Calculate mAPs
+[2019-03-19 04:11:54, INFO, evaluate] mAP parallel: qbe [overlap = 0.25]
+[2019-03-19 04:11:54, INFO, map_parallel] Using '6' threads for '1655' args
+[2019-03-19 04:11:57, INFO, evaluate] mAP parallel: qbs [overlap = 0.25]
+[2019-03-19 04:11:57, INFO, map_parallel] Using '6' threads for '690' args
+[2019-03-19 04:11:59, INFO, evaluate] mAP parallel: qbe [overlap = 0.50]
+[2019-03-19 04:11:59, INFO, map_parallel] Using '6' threads for '1655' args
+[2019-03-19 04:12:02, INFO, evaluate] mAP parallel: qbs [overlap = 0.50]
+[2019-03-19 04:12:02, INFO, map_parallel] Using '6' threads for '690' args
+[2019-03-19 04:12:05, INFO, evaluate] ground truth proposals: 36
+[2019-03-19 04:12:05, INFO, evaluate] external_proposals dtp: 7002
+[2019-03-19 04:12:07, INFO, evaluate] ground truth proposals: 7
+[2019-03-19 04:12:07, INFO, evaluate] external_proposals dtp: 2926
+[2019-03-19 04:12:08, INFO, evaluate] ground truth proposals: 28
+[2019-03-19 04:12:08, INFO, evaluate] external_proposals dtp: 8411
+[2019-03-19 04:12:11, INFO, evaluate] ground truth proposals: 30
+[2019-03-19 04:12:11, INFO, evaluate] external_proposals dtp: 5541
+[2019-03-19 04:12:12, INFO, evaluate] ground truth proposals: 26
+[2019-03-19 04:12:12, INFO, evaluate] external_proposals dtp: 7761
+[2019-03-19 04:12:15, INFO, evaluate] ground truth proposals: 23
+[2019-03-19 04:12:15, INFO, evaluate] external_proposals dtp: 16530
+[2019-03-19 04:12:20, INFO, evaluate] ground truth proposals: 27
+[2019-03-19 04:12:20, INFO, evaluate] external_proposals dtp: 5782
+[2019-03-19 04:12:22, INFO, evaluate] ground truth proposals: 27
+[2019-03-19 04:12:22, INFO, evaluate] external_proposals dtp: 6274
+[2019-03-19 04:12:24, INFO, evaluate] ground truth proposals: 34
+[2019-03-19 04:12:24, INFO, evaluate] external_proposals dtp: 9103
+[2019-03-19 04:12:27, INFO, evaluate] ground truth proposals: 34
+[2019-03-19 04:12:27, INFO, evaluate] external_proposals dtp: 6689
+[2019-03-19 04:12:29, INFO, evaluate] ground truth proposals: 33
+[2019-03-19 04:12:29, INFO, evaluate] external_proposals dtp: 5017
+[2019-03-19 04:12:31, INFO, evaluate] ground truth proposals: 28
+[2019-03-19 04:12:31, INFO, evaluate] external_proposals dtp: 7841
+[2019-03-19 04:12:33, INFO, evaluate] ground truth proposals: 28
+[2019-03-19 04:12:33, INFO, evaluate] external_proposals dtp: 8526
+[2019-03-19 04:12:36, INFO, evaluate] ground truth proposals: 24
+[2019-03-19 04:12:36, INFO, evaluate] external_proposals dtp: 6474
+[2019-03-19 04:12:38, INFO, evaluate] ground truth proposals: 32
+[2019-03-19 04:12:38, INFO, evaluate] external_proposals dtp: 9192
+[2019-03-19 04:12:41, INFO, evaluate] ground truth proposals: 23
+[2019-03-19 04:12:41, INFO, evaluate] external_proposals dtp: 7061
+[2019-03-19 04:12:43, INFO, evaluate] ground truth proposals: 20
+[2019-03-19 04:12:43, INFO, evaluate] external_proposals dtp: 15114
+[2019-03-19 04:12:48, INFO, evaluate] ground truth proposals: 25
+[2019-03-19 04:12:48, INFO, evaluate] external_proposals dtp: 7158
+[2019-03-19 04:12:50, INFO, evaluate] ground truth proposals: 21
+[2019-03-19 04:12:50, INFO, evaluate] external_proposals dtp: 6051
+[2019-03-19 04:12:52, INFO, evaluate] ground truth proposals: 30
+[2019-03-19 04:12:52, INFO, evaluate] external_proposals dtp: 8486
+[2019-03-19 04:13:07, INFO, evaluate] Calculate mAPs
+[2019-03-19 04:13:07, INFO, evaluate] mAP parallel: qbe [overlap = 0.25]
+[2019-03-19 04:13:07, INFO, map_parallel] Using '6' threads for '536' args
+[2019-03-19 04:13:10, INFO, evaluate] mAP parallel: qbs [overlap = 0.25]
+[2019-03-19 04:13:10, INFO, map_parallel] Using '6' threads for '100' args
+[2019-03-19 04:13:11, INFO, evaluate] mAP parallel: qbe [overlap = 0.50]
+[2019-03-19 04:13:11, INFO, map_parallel] Using '6' threads for '536' args
+[2019-03-19 04:13:13, INFO, evaluate] mAP parallel: qbs [overlap = 0.50]
+[2019-03-19 04:13:13, INFO, map_parallel] Using '6' threads for '100' args

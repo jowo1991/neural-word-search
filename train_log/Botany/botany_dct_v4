@@ -1,0 +1,1 @@
+python train_dtp.py -learning_rate 0.001 -embedding dct -dataset botany -fold 1 -dtp_train 1 -augment 0 -verbose 1 -quiet 0 -eval_first_iteration 0 -weights model/ctrlfnet_mini_dct_iiit_hws.pt -max_iters 25000 -eval_every 250 -h5 0 -image_size 1000 -save_id test_v4 -num_worker 0 > train/botany/botany_dct_v4.out 2> train/botany/botany_dct_v4.err

@@ -18,7 +18,7 @@ from evaluate_dtp import mAP
 
 logging.basicConfig(format='[%(asctime)s, %(levelname)s, %(name)s] %(message)s',
                     datefmt='%Y-%m-%d %H:%M:%S',
-                    level=logging.INFO)
+                    level=logging.DEBUG)
 opt = parse_args()
 os.environ['CUDA_VISIBLE_DEVICES'] = str(opt.gpu)
 torch.backends.cudnn.benchmark = False
@@ -71,7 +71,7 @@ args.gpu = True
 args.use_external_proposals = int(opt.external_proposals)
 args.max_proposals = opt.max_proposals
 args.rpn_nms_thresh = opt.test_rpn_nms_thresh
-args.num_workers = 6
+args.num_workers = opt.num_workers
 args.numpy = False
 
 trainlog = ''
@@ -94,6 +94,7 @@ if opt.weights:
 if not os.path.exists('checkpoints/ctrlfnet_mini/'):
     os.makedirs('checkpoints/ctrlfnet_mini/')
 
+logging.getLogger('train_dtp').info("Starting train-loop")
 oargs = ('ctrlfnet_mini', opt.embedding, opt.dataset, opt.fold, opt.save_id)
 out_name = 'checkpoints/%s/%s_%s_fold%d_%s_best_val.pt' % oargs
 for data in trainloader:

@@ -20,16 +20,35 @@ import torch.utils.data as t_data
 import tqdm
 from scipy.misc import imresize
 from skimage.color import rgb2gray
-from skimage.io import imread
+from skimage.io import imread, imsave
 from skimage.util import img_as_ubyte
 
 import box_utils
 import dataset_loader as dl
 import embeddings as emb
 import utils
+from backports.functools_lru_cache import lru_cache
 
 
 class Dataset(t_data.Dataset):
+
+    @staticmethod
+    @lru_cache(maxsize=1)
+    def load_dataset(dataset, fold, alphabet):
+        return getattr(dl, 'load_%s' % dataset)(fold=fold, alphabet=alphabet)
+
+    h5_cache = dict()
+
+    @staticmethod
+    def get_h5py_cached_key(key, db_file, db):
+        if (db_file, key) not in Dataset.h5_cache:
+            logging.getLogger('h5py_cache').info("Caching key='%s' for db_file='%s'", key, db_file)
+            Dataset.h5_cache[(db_file, key)] = db.get(key).value
+        else:
+            logging.getLogger('h5py_cache').debug("Cache hit for key='%s' and db_file='%s'", key, db_file)
+
+        return Dataset.h5_cache[(db_file, key)]
+
     def __init__(self, opt, split, alphabet=None, root='data/'):
         super(Dataset, self).__init__()
         if alphabet == None:
@@ -45,7 +64,7 @@ class Dataset(t_data.Dataset):
             self.dataset = opt.val_dataset
             
         self.iam = self.dataset == 'iam'
-        self.data = getattr(dl, 'load_%s' % self.dataset)(fold=self.opt.fold, alphabet=self.alphabet)
+        self.data = Dataset.load_dataset(self.dataset, opt.fold, self.alphabet)
         db_file = root + '%s/data_fold%d.h5' % (self.dataset, self.opt.fold)
 
         if self.opt.ghosh and self.split == 'test':
@@ -90,8 +109,11 @@ class Dataset(t_data.Dataset):
 
         if not os.path.exists(db_file):
             create_db(self.data, db_file)
+
         db = h5py.File(db_file)
-        ims = db.get('images').value
+        logging.getLogger('datasets').info('Loading images...')
+        ims = Dataset.get_h5py_cached_key('images', db=db, db_file=db_file)
+        logging.getLogger('datasets').info('Loaded images: %s', ims.shape)
         ow = db.get('image_widths').value
         oh = db.get('image_heights').value
         self.image_mean = db.get('image_mean').value
@@ -136,6 +158,8 @@ class Dataset(t_data.Dataset):
                 word = img[y1:y2, x1:x2]
                 ind = self.wtoi[r['label']]
                 self.words_by_label[ind].append(word)
+
+        self.prep_img_counter = 0
                 
     def dataset_query_filter(self, features, gt_targets, tensorize=False):
         if self.iam:
@@ -232,7 +256,10 @@ class Dataset(t_data.Dataset):
         img = np.invert(img)
         img = img.astype(np.float32) # convert to float
         img /= 255.0                 # convert to [0, 1]
-        img -= (self.image_mean / 255.0)
+
+        if 'botany' not in self.dataset:
+            img -= (self.image_mean / 255.0)
+
         return np.expand_dims(img, 0)
     
     def getitem(self, index):
@@ -251,7 +278,14 @@ class Dataset(t_data.Dataset):
         out = (img, oshape, boxes, proposals, embeddings, labels)
         return out
 
-    
+    def save_prep_img(self, datum, img):
+        pass
+        # self.prep_img_counter += 1
+        # prep_filename = datum['id'][:-4] + "_prep_%d.jpg" % self.prep_img_counter
+        # if not os.path.exists(prep_filename):
+        # logging.getLogger('Dataset').debug("Save prepared page to: '%s'", prep_filename)
+        # imsave(prep_filename, img.squeeze())
+
     def __getitem__(self, index):
         if self.train: 
             ind = index % self.N
@@ -270,6 +304,8 @@ class Dataset(t_data.Dataset):
                 embeddings = np.array([self.wtoe[r['label']] for r in datum['regions']])
             
             img = self.prep(img)
+            self.save_prep_img(datum, img)
+
             out = (img, boxes, embeddings, labels)
             
             if self.dtp_train:
@@ -285,9 +321,10 @@ class Dataset(t_data.Dataset):
             boxes = datum['gt_boxes']
             proposals = datum['region_proposals']
 
-            logging.getLogger('Dataset').debug('Prepare page: %s', datum['id'])
-
+            logging.getLogger('Dataset_test').debug("Prepare page: '%s'", datum['id'])
             img = self.prep(img)
+            self.save_prep_img(datum, img)
+
             oshape = (self.original_heights[index], self.original_widths[index])
             out = (img, oshape, boxes, proposals, embeddings, labels)
 

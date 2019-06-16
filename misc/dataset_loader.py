@@ -8,11 +8,14 @@ Created on Fri Nov 25 12:10:04 2016
 import os
 import glob
 import string
+import re
 import json
 import tqdm
 from Queue import Queue
 from threading import Thread, Lock
 import xml.etree.ElementTree as ET
+
+from backports.functools_lru_cache import lru_cache
 
 import scipy as sp
 import scipy.io
@@ -108,6 +111,7 @@ def extract_dtp(data, C_range, R_range, multiple_thresholds=True):
         t.daemon = True
         t.start()
     q.join()
+    status.close()
 
 
 def load_washington_small(fold=1, root="data/washington/", alphabet=default_alphabet):
@@ -291,6 +295,151 @@ def parse_esposalles_xml(xml_filepath, alphabet):
         bboxes_xyxy.append(bbox_xyxy)
 
     return transcriptions, bboxes_xyxy
+
+
+@lru_cache(maxsize=3)
+def parse_icfhr16_xml(xml_filepath):
+    tree = ET.parse(xml_filepath)
+    return tree.findall('spot')
+
+
+def parse_icfhr16(xml_filepath, alphabet, image_filename=None):
+    spots = parse_icfhr16_xml(xml_filepath)
+
+    transcriptions = []
+    bboxes_xyhw = []
+    for spot in spots:
+        image = spot.attrib['image']
+        if image and image != image_filename:
+            continue
+
+        word = unicode(spot.attrib['word'])
+        cleaned = ascii_fold(word).lower()
+        cleaned = cleaned.replace('&quot;', '"').replace('&amp;', '&')
+        filtered = ''.join([c for c in cleaned if c in alphabet])
+        if len(filtered) == 0:
+            logging.getLogger('parse_icfhr16').debug('Skipping annotation: %s', word)
+            continue
+
+        x = int(spot.attrib['x'])
+        y = int(spot.attrib['y'])
+        height = int(spot.attrib['h'])
+        width = int(spot.attrib['w'])
+
+        transcriptions.append(filtered)
+        bboxes_xyhw.append((x, y, height, width))
+
+    return transcriptions, bboxes_xyhw
+
+
+def load_icfhr16(root, alphabet, regex_pattern=None):
+    """
+        Loads the Konzilsprotokolle/Botany dataset.
+        Details:
+         * The "Train III" split is used for training
+         * The "Train I" split is used for validation
+         * The "QbS" part of the "Test" split is used for test
+         * The "validation" split is currently **not** supported / used in any way.
+           -> They provide separate QbS/QbE xml's which don't really fit the format used internally
+           -> However the 'official' validation split uses a subset of "Train I" so it's OK to use it for validation
+        :param root:
+        :param alphabet:
+        :return:
+        """
+    dataset_name = os.path.basename(root)
+    logger = logging.getLogger('load_%s' % dataset_name)
+
+    output_json = os.path.join(root, '%s.json' % dataset_name)
+    if not os.path.exists(output_json):
+        logger.info('Loading from files')
+        split_to_dir_dict = {'train': 'train3', 'val': 'train1', 'test': 'test'}
+        split_to_xml_dict = {'train': 'WL.xml', 'val': 'WL.xml', 'test': 'GT_SegFree_QbS.xml'}
+        box_id = 0
+        data = []
+        for split in ['train', 'val', 'test']:
+            files = sorted(glob.glob(os.path.join(root, split_to_dir_dict[split], 'pages/*.jpg')))
+            gt_file = os.path.join(root, split_to_dir_dict[split], 'ground_truth', split_to_xml_dict[split])
+
+            if regex_pattern:
+                files = [page for page in files if re.search(regex_pattern, page)]
+                logger.info("Pages after regex_filter: '%s'", files)
+
+            for i, img_file in enumerate(files):
+                img_filename = os.path.basename(img_file)
+                transcriptions, gt_boxes_xyhw = parse_icfhr16(gt_file, alphabet, img_filename)
+                regions = []
+                boxes_xyxy = []
+                for (x1, y1, h, w), transcription in zip(gt_boxes_xyhw, transcriptions):
+                    regions.append({
+                        'id': box_id,
+                        'image': img_file,
+                        'x': x1,
+                        'y': y1,
+                        'width': w,
+                        'height': h,
+                        'label': transcription
+                    })
+                    boxes_xyxy.append((x1, y1, x1 + w, y1 + h))
+                    box_id += 1
+
+                assert len(boxes_xyxy) == len(regions), 'bboxes count must match regions'
+
+                datum = {'id': img_file,
+                         'gt_boxes': boxes_xyxy,
+                         'regions': regions,
+                         'split': split}
+
+                # In botany there exist pages with no gt_annotations! Ignore them.
+                if len(boxes_xyxy) > 0:
+                    data.append(datum)
+                else:
+                    logger.info("Ignoring image '%s' because there are no gt_annotations", img_file)
+
+        logger.info("Extracting DTP...")
+        C_range = range(1, 40, 3)  # horizontal range
+        R_range = range(1, 40, 3)  # vertical range
+        extract_dtp(data, C_range, R_range, multiple_thresholds=True)
+
+        for datum in data:
+            proposals = np.load(datum['id'][:-4] + '_dtp.npz')['region_proposals']
+            datum['region_proposals'] = proposals.tolist()
+
+        logger.info("Extracting DTP done")
+
+        with open(output_json, 'w') as f:
+            logger.info('Saving to JSON: %s', output_json)
+            json_str = json.dumps(data)
+            f.write(json_str)
+    else:
+        with open(output_json) as f:
+            logger.info("Loading from JSON: %s", output_json)
+            data = json.load(f)
+
+    return data
+
+
+def load_konzilsprotokolle(fold, alphabet):
+    """
+    Load the Konzilsprotokolle dataset from the `ICFHR 2016 Handwritten Keyword Spotting Competition`.
+
+    :param fold: There are no folds. Parameter is necessary compatibility reasons
+    :param alphabet: Necessary for compatibility
+    """
+    return load_icfhr16("data/konzilsprotokolle", alphabet)
+
+
+def load_botany(fold, alphabet, regex_pattern=None):
+    """
+    Load the Botany dataset from the `ICFHR 2016 Handwritten Keyword Spotting Competition`.
+
+    :param fold: There are no folds. Parameter is necessary compatibility reasons
+    :param alphabet: Necessary for compatibility
+    """
+    return load_icfhr16("data/botany", alphabet, regex_pattern)
+
+
+def load_botany_small(fold, alphabet, regex_pattern='b0(102|103|104|105|00[0-2]|15[5-9]).jpg'):
+    return load_icfhr16("data/botany", alphabet, regex_pattern)
 
 
 def load_esposalles(fold=None, root="data/esposalles", alphabet=default_alphabet):
@@ -497,17 +646,29 @@ def load_iam(fold=1, root="data/iam/", nval=10, alphabet=default_alphabet):
     return data
 
 
-def main():
+def main_esposalles():
     data = load_esposalles()
+    write_labels(data)
 
+
+def write_labels(data):
     list_of_labels = [[j['label'] for j in d['regions']] for d in data]
     arr = np.concatenate(list_of_labels)
 
-    uniq = np.unique(arr)
+    uniq, counts = np.unique(arr, return_counts=True)
     with open('labels.txt', mode='w') as f:
-        for u in uniq:
-            f.write(u)
+        for label, count in zip(uniq, counts):
+            f.write(label)
+            f.write(' - ')
+            f.write(str(count))
             f.write('\n')
+
+
+def main():
+    data = load_botany(fold=1, alphabet=default_alphabet)
+    write_labels(data)
+
+    return 0
 
 
 if __name__ == '__main__':

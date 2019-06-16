@@ -6,11 +6,15 @@ Created on Thu Mar  1 21:59:41 2018
 @author: tomas
 """
 import torch 
+import logging
 import numpy as np
 np.errstate(divide='ignore', invalid='ignore')
 import misc.box_utils as box_utils
 from misc.boxIoU import bbox_overlaps
 from evaluate import extract_features, calcuate_mAPs, recalls, pairwise_cosine_distances
+
+
+logger = logging.getLogger('evaluate_dtp')
 
 def hyperparam_search(model, valloader, args, opt, score_vars='all'):
     variables = ['score_nms_overlap', 'score_threshold']
@@ -43,6 +47,11 @@ def hyperparam_search(model, valloader, args, opt, score_vars='all'):
 def mAP(model, loader, args, it):
     print('Extract Features')
     features = extract_features(model, loader, args, args.numpy)
+    # print('Saving features.pt')
+    # torch.save(features, 'features.pt')
+    # print('Exiting...')
+    # exit(1)
+
     recall = 3   
     split = loader.dataset.split
     
@@ -145,6 +154,7 @@ def postprocessing(features, loader, args, model):
         
         #calculate the different recalls before NMS
         entry = {}
+        logger.debug('1_DTP proposals: %d', dtp_proposals.shape[0])
         recalls(dtp_proposals, gt_boxes, overlap_thresholds, entry, '1_total')
         
         threshold_pick = torch.squeeze(scores > score_threshold)
@@ -152,6 +162,8 @@ def postprocessing(features, loader, args, model):
         tmp = threshold_pick.view(-1, 1).expand(threshold_pick.size(0), 4)
         dtp_proposals = dtp_proposals[tmp].view(-1, 4)
         embeddings = embeddings[threshold_pick.view(-1, 1).expand(threshold_pick.size(0), embeddings.size(1))].view(-1, embeddings.size(1))
+        
+        logger.debug("2_DTP proposals: %d", dtp_proposals.shape[0])
         recalls(dtp_proposals, gt_boxes, overlap_thresholds, entry, '2_total')
         
         dets = torch.cat([dtp_proposals.float(), scores], 1)   
@@ -162,6 +174,8 @@ def postprocessing(features, loader, args, model):
         dtp_proposals = dtp_proposals[pick]
         embeddings = embeddings[pick]
         scores = scores[pick]
+
+        logger.debug("3_DTP proposals: %d", dtp_proposals.shape[0])
         recalls(dtp_proposals, gt_boxes, overlap_thresholds, entry, '3_total')
         
         overlap = bbox_overlaps(dtp_proposals, gt_boxes)

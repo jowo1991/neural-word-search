@@ -117,8 +117,8 @@ def extract_features(model, loader, args, numpy=True):
 def mAP(model, loader, args, it):
     logger.info('Extract features')
     features = extract_features(model, loader, args, args.numpy)
-    logger.info('Storing features.pt...')
-    torch.save(features, 'features.pt')
+    # logger.info('Storing features.pt...')
+    # torch.save(features, 'features.pt')
     logger.info('Extract features done')
     recall = 3
     split = loader.dataset.split
@@ -369,7 +369,7 @@ def postprocessing(features, loader, args, model):
 
 
 def calcuate_mAPs(qbe_dists, qbe_qtargets, qbs_dists, qbs_qtargets, db_targets,
-                  gt_targets, joint_boxes, max_overlaps, amax_overlaps, log, args):
+                  gt_targets, joint_boxes, max_overlaps, amax_overlaps, log, args, loader):
     logger.info('Calculate mAPs')
     results = easydict.EasyDict()
     results['log'] = log
@@ -378,12 +378,14 @@ def calcuate_mAPs(qbe_dists, qbe_qtargets, qbs_dists, qbs_qtargets, db_targets,
         logger.info('mAP parallel: qbe [overlap = %.2f]', ot)
         mAP_qbe, mR_qbe = mAP_parallel(qbe_dists, qbe_qtargets, db_targets,
                                        gt_targets, joint_boxes, max_overlaps,
-                                       amax_overlaps, args.nms_overlap, ot, args.num_workers, args)
+                                       amax_overlaps, args.nms_overlap, ot, args.num_workers, args, loader)
+        logger.info('QbE: mAP = %.2f, mR = %.2f', mAP_qbe * 100, mR_qbe * 100)
 
         logger.info('mAP parallel: qbs [overlap = %.2f]', ot)
         mAP_qbs, mR_qbs = mAP_parallel(qbs_dists, qbs_qtargets, db_targets,
                                        gt_targets, joint_boxes, max_overlaps,
-                                       amax_overlaps, args.nms_overlap, ot, args.num_workers, args)
+                                       amax_overlaps, args.nms_overlap, ot, args.num_workers, args, loader)
+        logger.info('QbS: mAP = %.2f, mR = %.2f', mAP_qbs * 100, mR_qbs * 100)
 
         results['mAP_qbe_%d' % (ot * 100)] = mAP_qbe
         results['mR_qbe_%d' % (ot * 100)] = mR_qbe
@@ -436,14 +438,15 @@ def average_precision_segfree(res, t, o, sinds, n_relevant, ot):
 
 
 def worker(arg):
-    dists, t, db_targets, joint_boxes, nms_overlap, max_overlaps, amax_overlaps, gt_targets, ot, num_workers = arg
+    dists, t, db_targets, joint_boxes, nms_overlap, max_overlaps, amax_overlaps, gt_targets, ot, num_workers, loader = arg
     count = np.sum(db_targets == t)
     if count == 0:  # i.e., we have missed this word completely
         return 0.0, 0.0
 
     sim = 1 - dists
     dets = np.hstack((joint_boxes, sim[:, np.newaxis]))
-    pick = box_utils.nms_np(dets, nms_overlap)
+    # pick = box_utils.nms_np(dets, nms_overlap)
+    pick = np.arange(dists.shape[0])
     dists = dists[pick]
     I = np.argsort(dists)
     res = db_targets[pick][I]  # Sort results after distance to query image
@@ -452,15 +455,17 @@ def worker(arg):
     n_relevant = np.sum(gt_targets == t)
     ap, covered = average_precision_segfree(res, t, o, sinds, n_relevant, ot)
     r = float(np.unique(covered).shape[0]) / n_relevant
+    print("mAP = %.2f (%s)" % (ap, loader.dataset.itow[t]))
     return ap, r
 
 
 def mAP_parallel(dists, qtargets, db_targets, gt_targets, joint_boxes,
-                 max_overlaps, amax_overlaps, nms_overlap, ot, num_workers, opt):
+                 max_overlaps, amax_overlaps, nms_overlap, ot, num_workers, opt, loader):
     args = [(d, t, db_targets, joint_boxes, nms_overlap, max_overlaps,
-             amax_overlaps, gt_targets, ot, num_workers) for d, t in zip(dists, qtargets)]
+             amax_overlaps, gt_targets, ot, num_workers, loader) for d, t in zip(dists, qtargets)]
 
     if num_workers > 1:
+        logging.getLogger('map_parallel').info("Using '%d' threads for '%d' args", num_workers, len(args))
         with closing(PyPool(num_workers)) as p:
             res = p.map(worker, args)
 
