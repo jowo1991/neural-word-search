@@ -140,6 +140,7 @@ class CtrlFNet(torch.nn.Module):
         self.front_roi_pooling = BilinearRoiPooling(60, 160)
         
     def load_weights(self, weight_file):
+        print('Ctrl-F-Mini: Loading weights from: %s' % weight_file)
         if weight_file:
             if weight_file.endswith('.pt'):
                 self.load_state_dict(torch.load(weight_file))

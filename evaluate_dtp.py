@@ -41,6 +41,7 @@ def hyperparam_search(model, valloader, args, opt, score_vars='all'):
         args[v] = best[v][1]
     
 def mAP(model, loader, args, it):
+    print('Extract Features')
     features = extract_features(model, loader, args, args.numpy)
     recall = 3   
     split = loader.dataset.split
@@ -76,6 +77,7 @@ def mAP(model, loader, args, it):
         return log, res_true, res_true
     
 def mAP_eval(features, loader, args, model):
+    print('mAP_eval -> postprocessing')
     d = postprocessing(features, loader, args, model)
     d += (args, )
     results = calcuate_mAPs(*d)

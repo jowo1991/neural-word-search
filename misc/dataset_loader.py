@@ -9,34 +9,40 @@ import os
 import glob
 import string
 import json
+import tqdm
 from Queue import Queue
 from threading import Thread, Lock
+import xml.etree.ElementTree as ET
 
 import scipy as sp
 import scipy.io
 import numpy as np
 from skimage.io import imread, imsave
 import cv2
+import logging
+
+from fold_to_ascii import fold as ascii_fold
 
 import utils
 
 default_alphabet = string.ascii_lowercase + string.digits
 
+
 def extract_regions(t_img, C_range, R_range):
     """
     Extracts region propsals for a given image
     """
-    all_boxes = []    
+    all_boxes = []
     for R in R_range:
         for C in C_range:
             s_img = cv2.morphologyEx(t_img, cv2.MORPH_CLOSE, np.ones((R, C), dtype=np.ubyte))
             n, l_img, stats, centroids = cv2.connectedComponentsWithStats(s_img, connectivity=4)
             boxes = [[b[0], b[1], b[0] + b[2], b[1] + b[3]] for b in stats]
             all_boxes += boxes
-                
+
     return all_boxes
 
-    
+
 def find_regions(img, threshold_range, C_range, R_range):
     """
     Extracts DTP from an image using different thresholds and morphology kernels    
@@ -45,19 +51,23 @@ def find_regions(img, threshold_range, C_range, R_range):
     ims = []
     for t in threshold_range:
         ims.append((img < t).astype(np.ubyte))
-    
+
     ab = []
     for t_img in ims:
         ab += extract_regions(t_img, C_range, R_range)
-        
+
     return ab
 
+
 def extract_dtp(data, C_range, R_range, multiple_thresholds=True):
+    logger = logging.getLogger('extract_dtp')
     lock = Lock()
     q = Queue()
     for i, datum in enumerate(data):
         q.put((i, datum['id']))
-        
+
+    status = tqdm.tqdm(total=len(data), desc='DTP')
+
     def worker():
         while True:
             i, filename = q.get()
@@ -67,37 +77,42 @@ def extract_dtp(data, C_range, R_range, multiple_thresholds=True):
                 lock.acquire()
                 print 'Processing image %d / %d' % (i, len(data))
                 lock.release()
-            
+
             if not os.path.exists(proposal_file):
                 try:
-                    img = imread(filename)
+                    img = imread(filename, as_grey=True)
 
-                    #extract regions
+                    # extract regions
                     m = img.mean()
                     if multiple_thresholds:
                         threshold_range = np.arange(0.7, 1.01, 0.1) * m
                     else:
                         threshold_range = np.array([0.9]) * m
-                    region_proposals = find_regions(img, threshold_range, C_range, R_range) 
+                    region_proposals = find_regions(img, threshold_range, C_range, R_range)
                     region_proposals, _ = utils.unique_boxes(region_proposals)
                     np.savez_compressed(proposal_file, region_proposals=region_proposals)
+                    logger.info("Finished '%s'", filename)
                 except:
                     lock.acquire()
-                    print 'exception thrown with file', filename
+                    logger.exception('exception thrown with file %s' % filename)
                     lock.release()
 
             q.task_done()
-              
+            lock.acquire()
+            status.update()
+            lock.release()
+
     num_workers = 6
     for i in xrange(num_workers):
         t = Thread(target=worker)
         t.daemon = True
         t.start()
     q.join()
-    
+
+
 def load_washington_small(fold=1, root="data/washington/", alphabet=default_alphabet):
     data = load_washington(fold, root, alphabet)
-    first = True #Keep the same validation page
+    first = True  # Keep the same validation page
     for datum in data:
         if datum['split'] == 'train':
             datum['split'] = 'test'
@@ -107,8 +122,9 @@ def load_washington_small(fold=1, root="data/washington/", alphabet=default_alph
                 continue
             else:
                 datum['split'] = 'train'
-            
+
     return data
+
 
 def load_washington(fold=1, root="data/washington/", alphabet=default_alphabet):
     output_json = root + 'washington_fold_%d.json' % fold
@@ -116,13 +132,13 @@ def load_washington(fold=1, root="data/washington/", alphabet=default_alphabet):
         print "loading washington from files"
         files = sorted(glob.glob(os.path.join(root, 'gw_20p_wannot/*.tif')))
         gt_files = [f[:-4] + '_boxes.txt' for f in files]
-        
+
         with open(os.path.join(root, 'gw_20p_wannot/annotations.txt')) as f:
             lines = f.readlines()
 
-        texts = [l[:-1] for l in lines]        
+        texts = [l[:-1] for l in lines]
         ntexts = [utils.replace_tokens(text.lower(), [t for t in text if t not in alphabet]) for text in texts]
-        
+
         data = []
         ind = 0
         box_id = 0
@@ -141,11 +157,11 @@ def load_washington(fold=1, root="data/washington/", alphabet=default_alphabet):
                 y2 = int(float(tmp[3]) * h)
                 box = (x1, y1, x2, y2)
                 gt_boxes.append(box)
-                
+
             labels = ntexts[ind:ind + len(gt_boxes)]
             ind += len(gt_boxes)
             labels = [unicode(l, errors='replace') for l in labels]
-                      
+
             regions = []
             for p, l in zip(gt_boxes, labels):
                 r = {}
@@ -165,20 +181,20 @@ def load_washington(fold=1, root="data/washington/", alphabet=default_alphabet):
             datum['regions'] = regions
             data.append(datum)
 
-        print "extracting DTP for washington" 
-        C_range=range(1, 40, 3) #horizontal range
-        R_range=range(1, 40, 3) #vertical range
+        print "extracting DTP for washington"
+        C_range = range(1, 40, 3)  # horizontal range
+        R_range = range(1, 40, 3)  # vertical range
         extract_dtp(data, C_range, R_range, multiple_thresholds=True)
-        for datum in data:        
+        for datum in data:
             proposals = np.load(datum['id'][:-4] + '_dtp.npz')['region_proposals']
             datum['region_proposals'] = proposals.tolist()
-            
-        print "extracting DTP done" 
-        
+
+        print "extracting DTP done"
+
         inds = np.squeeze(np.load(root + 'indeces.npy').item()['inds'])
         data = [data[i] for i in inds]
-        
-        #Train/val/test on different partitions based on which fold we're using
+
+        # Train/val/test on different partitions based on which fold we're using
         data = np.roll(data, 5 * (fold - 1)).tolist()
 
         for j, datum in enumerate(data):
@@ -188,28 +204,29 @@ def load_washington(fold=1, root="data/washington/", alphabet=default_alphabet):
                 datum['split'] = 'val'
             else:
                 datum['split'] = 'test'
-         
+
         with open(output_json, 'w') as f:
             json.dump(data, f)
-    
-    else: #otherwise load the json
+
+    else:  # otherwise load the json
         with open(output_json) as f:
             data = json.load(f)
-    
-    return data  
+
+    return data
+
 
 def load_iiit_hws(fold=1, root='data/iiit-hws/', vocab_size='10k', alphabet=default_alphabet):
     output_json = 'iiit_hws_%s.json' % vocab_size
-    if not os.path.exists(output_json):    
+    if not os.path.exists(output_json):
         print "loading iiit_hws from files"
         dic = sp.io.loadmat(os.path.join(root, 'groundtruth/%s.mat' % vocab_size))
-        
-        texts = np.squeeze(dic['texts'])       #vocabulary
+
+        texts = np.squeeze(dic['texts'])  # vocabulary
         vocab = [t[0] for t in texts]
-        labels = np.squeeze(dic['labels']) - 1 # -1 for matlab conversion
-        names = np.squeeze(dic['names'])       #file names
-        t_inds = np.squeeze(dic['training_indeces']).astype(np.int32) - 1   # -1 for matlab conversion
-        v_inds = np.squeeze(dic['validation_indeces']).astype(np.int32) - 1 # -1 for matlab conversion
+        labels = np.squeeze(dic['labels']) - 1  # -1 for matlab conversion
+        names = np.squeeze(dic['names'])  # file names
+        t_inds = np.squeeze(dic['training_indeces']).astype(np.int32) - 1  # -1 for matlab conversion
+        v_inds = np.squeeze(dic['validation_indeces']).astype(np.int32) - 1  # -1 for matlab conversion
 
         splits = np.zeros(len(labels), dtype=np.int32)
         splits[t_inds] = 1
@@ -232,28 +249,122 @@ def load_iiit_hws(fold=1, root='data/iiit-hws/', vocab_size='10k', alphabet=defa
                 datum['split'] = 'test'
 
             data.append(datum)
-    
+
         inds = np.random.permutation(len(data))
         data = [data[i] for i in inds]
-            
+
         with open(output_json, 'w') as f:
             json.dump(data, f)
-    
-    else: #otherwise load the json
+
+    else:  # otherwise load the json
         with open(output_json) as f:
             data = json.load(f)
-    
-    return data    
+
+    return data
+
+
+def parse_esposalles_xml(xml_filepath, alphabet):
+    tree = ET.parse(xml_filepath)
+    root = tree.getroot()
+
+    ns = {'r': 'http://schema.primaresearch.org/PAGE/gts/pagecontent/2013-07-15'}
+    words = root.findall("r:Page/r:TextRegion/r:TextLine/r:Word", ns)
+
+    transcriptions = []
+    bboxes_xyxy = []
+    for word in words:
+        transcription = unicode(word.find('r:TextEquiv/r:Unicode', ns).text)
+        cleaned = ascii_fold(transcription).lower()
+        filtered = ''.join([c for c in cleaned if c in alphabet])
+        if len(filtered) == 0:
+            logging.getLogger('parse_esposalles_xml').debug('Skipping annotation: %s', transcription)
+            continue
+
+        bbox_str = word.find('r:Coords', ns).get('points')
+        # take first and third element: top-left (x,y) and bottom-right (x, y)
+        bbox_split = bbox_str.split(' ')
+        x1, y1 = [int(val) for val in bbox_split[0].split(',')]
+        x2, y2 = [int(val) for val in bbox_split[2].split(',')]
+        bbox_xyxy = (x1, y1, x2, y2)
+
+        transcriptions.append(filtered)
+        bboxes_xyxy.append(bbox_xyxy)
+
+    return transcriptions, bboxes_xyxy
+
+
+def load_esposalles(fold=None, root="data/esposalles", alphabet=default_alphabet):
+    logger = logging.getLogger('load_esposalles')
+    output_json = os.path.join(root, 'esposalles.json')
+    if not os.path.exists(output_json):
+        logger.info('Loading Esposalles from files')
+
+        box_id = 0
+        data = []
+        for split in ['test', 'train', 'val']:
+            files = sorted(glob.glob(os.path.join(root, split, 'pages/*.jpg')))
+            gt_files = sorted(glob.glob(os.path.join(root, split, 'ground_truth/*.xml')))
+
+            for i, (img_file, gt_file) in enumerate(zip(files, gt_files)):
+                transcriptions, gt_boxes_xyxy = parse_esposalles_xml(gt_file, alphabet=alphabet)
+
+                regions = []
+                boxes_xyxy = []
+                for (x1, y1, x2, y2), transcription in zip(gt_boxes_xyxy, transcriptions):
+                    regions.append({
+                        'id': box_id,
+                        'image': img_file,
+                        'x': x1,
+                        'y': y1,
+                        'width': x2 - x1,
+                        'height': y2 - y1,
+                        'label': transcription
+                    })
+                    boxes_xyxy.append((x1, y1, x2, y2))
+                    box_id += 1
+
+                assert len(boxes_xyxy) == len(regions), 'bboxes count must match regions'
+
+                datum = {'id': img_file,
+                         'gt_boxes': boxes_xyxy,
+                         'regions': regions,
+                         'split': split}
+                data.append(datum)
+
+        logger.info("Extracting DTP for Esposalles")
+        C_range = range(1, 40, 3)  # horizontal range
+        R_range = range(1, 40, 3)  # vertical range
+        extract_dtp(data, C_range, R_range, multiple_thresholds=False)
+
+        for datum in data:
+            proposals = np.load(datum['id'][:-4] + '_dtp.npz')['region_proposals']
+            datum['region_proposals'] = proposals.tolist()
+
+        logger.info("Extracting DTP done")
+
+        with open(output_json, 'w') as f:
+            logger.info('Saving Esposalles JSON to: %s', output_json)
+            json_str = json.dumps(data)
+            f.write(json_str)
+
+    # otherwise load the json
+    else:
+        with open(output_json) as f:
+            logger.info("Loading Espoalles from JSON: %s", output_json)
+            data = json.load(f)
+
+    return data
+
 
 def load_iam(fold=1, root="data/iam/", nval=10, alphabet=default_alphabet):
     output_json = root + 'iam.json'
-    if not os.path.exists(output_json): 
+    if not os.path.exists(output_json):
         print "loading iam from files"
         with open(os.path.join(root, 'words.txt')) as f:
             lines = f.readlines()
-        
-        lines = lines[18:] #Remove some description in beginning of file
-        
+
+        lines = lines[18:]  # Remove some description in beginning of file
+
         form2box = {}
         for line in lines:
             ls = line.split()
@@ -268,14 +379,14 @@ def load_iam(fold=1, root="data/iam/", nval=10, alphabet=default_alphabet):
         splits['train'] = sorted(list(set(['-'.join(l[:-1].split('-')[:-1]) for l in trainset])))
 
         with open(os.path.join(root, 'validationset1.txt')) as f:
-            valset = f.readlines()                
-        
+            valset = f.readlines()
+
         with open(os.path.join(root, 'validationset2.txt')) as f:
-            valset += f.readlines()                
-            
+            valset += f.readlines()
+
         splits['val'] = sorted(list(set(['-'.join(l[:-1].split('-')[:-1]) for l in valset])))
         with open(os.path.join(root, 'testset.txt')) as f:
-            testset = f.readlines()      
+            testset = f.readlines()
         splits['test'] = sorted(list(set(['-'.join(l[:-1].split('-')[:-1]) for l in testset])))
 
         os.makedirs(root + 'cropped_forms/')
@@ -306,81 +417,101 @@ def load_iam(fold=1, root="data/iam/", nval=10, alphabet=default_alphabet):
                 regions.append(r)
                 gt_boxes.append(b)
                 box_id += 1
-            
+
             if len(gt_boxes) == 0:
                 print 'fail', f
-                
+
             datum = {}
             fs = f.split('/')[-1][:-4]
             if fs in splits['train']:
                 datum['split'] = 'train'
             elif fs in splits['val']:
-                datum['split'] = 'val'  
+                datum['split'] = 'val'
             elif fs in splits['test']:
-                datum['split'] = 'test'  
+                datum['split'] = 'test'
             else:
                 continue
 
-            #crop form to relevant parts only and save
+            # crop form to relevant parts only and save
             img = imread(f)
-            
-            #calculate convex hull of all boxes, and add some margin height wise.
+
+            # calculate convex hull of all boxes, and add some margin height wise.
             ob = utils.outer_box(np.array(gt_boxes))
             margin = 50
-            ob[1] = max(ob[1] - margin, 0) 
+            ob[1] = max(ob[1] - margin, 0)
             ob[3] = min(ob[3] + margin, img.shape[0])
             od = root + 'cropped_forms/'
             fs = f.split('/')[-1]
             img = img[ob[1]:ob[3], :]
             file_id = od + fs
             imsave(od + fs, img)
-            
+
             gt_boxes = np.array(gt_boxes)
             gt_boxes[:, 1] -= ob[1]
             gt_boxes[:, 3] -= ob[1]
             gt_boxes = gt_boxes.tolist()
             for r in regions:
                 r['y'] -= ob[1]
-            
+
             datum['gt_boxes'] = gt_boxes
             datum['regions'] = regions
             datum['id'] = file_id
             data.append(datum)
-   
+
         print "extracting DTP for iam"
-#        C_range=range(1, 40, 3) #horizontal range
-#        R_range=range(1, 40, 3) #vertical range
-        C_range=range(3, 50, 5) #horizontal range
-        R_range=range(3, 50, 5) #vertical range
+        #        C_range=range(1, 40, 3) #horizontal range
+        #        R_range=range(1, 40, 3) #vertical range
+        C_range = range(3, 50, 5)  # horizontal range
+        R_range = range(3, 50, 5)  # vertical range
         extract_dtp(data, C_range, R_range, multiple_thresholds=False)
-        for datum in data:        
+        for datum in data:
             proposals = np.load(datum['id'][:-4] + '_dtp.npz')['region_proposals']
             datum['region_proposals'] = proposals.tolist()
 
-        print "extracting DTP done" 
-        
-        #Some ground truth boxes for IAM are smaller than 8 pixels in width or height
-        #We remove these as they collapse to zero width when forwarding through model
-        #They are typically things like commas or periods, due to automatic word level annotation
+        print "extracting DTP done"
+
+        # Some ground truth boxes for IAM are smaller than 8 pixels in width or height
+        # We remove these as they collapse to zero width when forwarding through model
+        # They are typically things like commas or periods, due to automatic word level annotation
         utils.filter_ground_truth_boxes(data)
-        
+
         inds = np.random.permutation(len(data))
         data = [data[i] for i in inds]
         with open(output_json, 'w') as f:
             json.dump(data, f)
-    
-    else: #otherwise load the json
+
+    else:  # otherwise load the json
         with open(output_json) as f:
             data = json.load(f)
-    
+
     for datum in data:
         assert len(datum['regions']) == len(datum['gt_boxes'])
         for r, gtb in zip(datum['regions'], datum['gt_boxes']):
             r['label'] = utils.replace_tokens(r['label'].lower(), [c for c in r['label'] if c not in alphabet])
 
-    #too many validation pages takes too long, so we reduce at a possible cost of 
-    #selecting the suboptimal model during training. 
+    # too many validation pages takes too long, so we reduce at a possible cost of
+    # selecting the suboptimal model during training.
     val_inds = [j for j, d in enumerate(data) if d['split'] == 'val']
     val_inds_remove = val_inds[nval:]
     data = [d for j, d in enumerate(data) if j not in val_inds_remove]
     return data
+
+
+def main():
+    data = load_esposalles()
+
+    list_of_labels = [[j['label'] for j in d['regions']] for d in data]
+    arr = np.concatenate(list_of_labels)
+
+    uniq = np.unique(arr)
+    with open('labels.txt', mode='w') as f:
+        for u in uniq:
+            f.write(u)
+            f.write('\n')
+
+
+if __name__ == '__main__':
+    logging.basicConfig(format='[%(asctime)s, %(levelname)s, %(name)s] %(message)s',
+                        datefmt='%Y-%m-%d %H:%M:%S',
+                        level=logging.DEBUG)
+    main()

@@ -61,7 +61,7 @@ def phoc(word, alphabet, unigram_levels, bigram_levels=None, phoc_bigrams=None):
     for index, char in enumerate(word):
         char_occ = occupancy(index, n)
         if char not in char_indices:
-            raise ValueError()
+            raise ValueError("Invalid char: '%s'" % char)
         char_index = char_indices[char]
         for level in unigram_levels:
             for region in range(level):

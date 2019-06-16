@@ -5,25 +5,29 @@ Created on Thu Nov  9 11:26:36 2017
 
 @author: tomas
 """
-import os
 import copy
-import numpy as np
-import torch.utils.data as t_data
-from scipy.misc import imresize
-from skimage.io import imread
-from skimage.util import img_as_ubyte
-from skimage.color import rgb2gray
-import skimage.transform as tf
-import skimage.filters as fi
-import torch
-import h5py
+import logging
+import os
 from Queue import Queue
 from threading import Thread, Lock
-import embeddings as emb
-import dataset_loader as dl
-import box_utils
 
+import h5py
+import numpy as np
+import skimage.filters as fi
+import skimage.transform as tf
+import torch
+import torch.utils.data as t_data
+import tqdm
+from scipy.misc import imresize
+from skimage.color import rgb2gray
+from skimage.io import imread
+from skimage.util import img_as_ubyte
+
+import box_utils
+import dataset_loader as dl
+import embeddings as emb
 import utils
+
 
 class Dataset(t_data.Dataset):
     def __init__(self, opt, split, alphabet=None, root='data/'):
@@ -280,6 +284,8 @@ class Dataset(t_data.Dataset):
             embeddings = np.array([self.wtoe[r['label']] for r in datum['regions']])
             boxes = datum['gt_boxes']
             proposals = datum['region_proposals']
+
+            logging.getLogger('Dataset').debug('Prepare page: %s', datum['id'])
 
             img = self.prep(img)
             oshape = (self.original_heights[index], self.original_widths[index])
@@ -590,9 +596,12 @@ class SegmentedDataset(Dataset):
         return canvas, gt_boxes, np.array(gt_embeddings), np.array(gt_labels)
                 
 def create_db(data, db_file):
+    logger = logging.getLogger('create_db')
     sizes = []
     means = []
-    for datum in data:
+
+    logger.info('Calculating means...')
+    for datum in tqdm.tqdm(data, desc='Calculating means...'):
         img = imread(datum['id'])
         if img.ndim == 3:
             img = img_as_ubyte(rgb2gray(img))

@@ -3,6 +3,7 @@ import torch.nn as nn
 from torch.autograd import Variable
 import math
 import easydict
+import logging
 
 from misc.localization_layer import LocalizationLayer
 from misc.box_regression_criterion import BoxRegressionCriterion
@@ -12,6 +13,8 @@ from misc.logistic_loss import LogisticLoss
 import misc.box_utils as box_utils
 import misc.utils as utils
 from misc.resnet_blocks import BasicBlock, Bottleneck
+
+logger = logging.getLogger('ctrlfnet')
 
 #to streamline code a bit
 class myMultiLabelSoftMarginLoss(nn.Module):
@@ -122,9 +125,9 @@ class CtrlFNet(torch.nn.Module):
             self.localization_layer.init_weights()
         
         #Final box scoring layer
-        self.box_scoring_branch = nn.Linear(512 * block.expansion, 2)
+        #self.box_scoring_branch = nn.Linear(512 * block.expansion, 2)
 #        else:
-#            self.box_scoring_branch = nn.Linear(512 * block.expansion, 1)
+        self.box_scoring_branch = nn.Linear(512 * block.expansion, 1)
         if opt.init_weights:
             self.box_scoring_branch.weight.data.normal_(0, self.opt.std)
             self.box_scoring_branch.bias.data.zero_()
@@ -161,6 +164,7 @@ class CtrlFNet(torch.nn.Module):
             self.embedding_loss = myMultiLabelSoftMarginLoss()
             
     def load_weights(self, weight_file):
+        logger.info('Ctrl-F-Net: Loading weights from: %s' % weight_file)
         if weight_file:
             self.load_state_dict(torch.load(weight_file))
         
@@ -212,6 +216,8 @@ class CtrlFNet(torch.nn.Module):
         'max_proposals':utils.getopt(kwargs, 'max_proposals', 1000),})
         self.opt.final_nms_thresh = utils.getopt(kwargs, 'final_nms_thresh', 0.3)
 
+        logger.debug('final_nms_thresh: %.2f', self.opt.final_nms_thresh)
+
     def setImageSize(self, image_height, image_width):
         self.localization_layer.setImageSize(image_height, image_width)
         
@@ -236,20 +242,21 @@ class CtrlFNet(torch.nn.Module):
         """
         embed, scores, tboxes  = [], [], []
         for v in boxes.split(self.opt.test_batch_size):
-            roi_feats = self.localization_layer.eval_boxes((image, Variable(v.cuda(), volatile=True)))
-            roi_feats = self.layer3(roi_feats)
-            roi_feats = self.layer4(roi_feats)
-            roi_feats = self.bn2(roi_feats)
-            roi_feats = self.relu(roi_feats)
-            roi_feats = self.avgpool(roi_feats)
-            roi_feats = roi_feats.view(roi_feats.size(0), -1)
-            roi_codes = self.fc(roi_feats)
-            s = self.box_scoring_branch(roi_codes).cpu()
-            e = self.embedding_net(roi_codes).cpu()
-            if final_adjust_boxes:
-                box_trans = self.box_reg_branch(roi_codes)
-                b = self.apply_box_transform((v, box_trans.data)).cpu()
-                tboxes.append(b)
+            with torch.no_grad():
+                roi_feats = self.localization_layer.eval_boxes((image, Variable(v.cuda())))
+                roi_feats = self.layer3(roi_feats)
+                roi_feats = self.layer4(roi_feats)
+                roi_feats = self.bn2(roi_feats)
+                roi_feats = self.relu(roi_feats)
+                roi_feats = self.avgpool(roi_feats)
+                roi_feats = roi_feats.view(roi_feats.size(0), -1)
+                roi_codes = self.fc(roi_feats)
+                s = self.box_scoring_branch(roi_codes).cpu()
+                e = self.embedding_net(roi_codes).cpu()
+                if final_adjust_boxes:
+                    box_trans = self.box_reg_branch(roi_codes)
+                    b = self.apply_box_transform((v, box_trans.data)).cpu()
+                    tboxes.append(b)
             
             embed.append(e.data)
             scores.append(s.data)
@@ -272,49 +279,56 @@ class CtrlFNet(torch.nn.Module):
         return data[mask].view(-1, data.size(1))
 
     def evaluate(self, input, gpu, numpy=True, cpu=True):
-        image, gt_boxes, proposals = input
+        image, gt_boxes, external_proposals = input
         if gpu:
             image = image.cuda()
             
         B, C, H, W = image.shape
         self.setImageSize(H, W)
 
-        image = Variable(image, volatile=True)
-        image = self.conv1(image)
-        image = self.bn1(image)
-        image = self.relu(image)
-        image = self.maxpool(image)
-        image = self.layer1(image)
-        image = self.layer2(image)
-        roi_boxes = self.localization_layer(image)
-        gt_scores, gt_embed = self._eval_helper(image, gt_boxes, False)
-        roi_scores, roi_embed, roi_boxes = self._eval_helper(image, roi_boxes.data, True)
-        proposal_scores, proposal_embed = self._eval_helper(image, proposals, False)
+        with torch.no_grad():
+            image = Variable(image)
+            image = self.conv1(image)
+            image = self.bn1(image)
+            image = self.relu(image)
+            image = self.maxpool(image)
+            image = self.layer1(image)
+            image = self.layer2(image)
+            logger.info('localization_layer: predict rois')
+            rpn_roi_boxes = self.localization_layer(image)
+            logger.info('localization_layer_proposals: %d', len(rpn_roi_boxes))
+
+            total_boxes = len(gt_boxes) + len(rpn_roi_boxes.data) + len(external_proposals)
+            logger.info('extract embeddings of total proposals: %d', total_boxes)
+            gt_scores, gt_embed = self._eval_helper(image, gt_boxes, False)
+            rpn_roi_scores, rpn_roi_embed, rpn_roi_boxes = self._eval_helper(image, rpn_roi_boxes.data, True)
+            external_proposals_scores, external_proposals_embed = self._eval_helper(image, external_proposals, False)
+            logger.info('extract embeddings done')
         
         #Convert to x1y1x2y2
-        roi_boxes = box_utils.xcycwh_to_x1y1x2y2(roi_boxes)
+        rpn_roi_boxes = box_utils.xcycwh_to_x1y1x2y2(rpn_roi_boxes)
 
         if cpu:
-            roi_scores = roi_scores.cpu()
-            proposal_scores = proposal_scores.cpu()
-            roi_boxes = roi_boxes.cpu()
-            roi_embed = roi_embed.cpu()
+            rpn_roi_scores = rpn_roi_scores.cpu()
+            external_proposals_scores = external_proposals_scores.cpu()
+            rpn_roi_boxes = rpn_roi_boxes.cpu()
+            rpn_roi_embed = rpn_roi_embed.cpu()
             gt_embed = gt_embed.cpu()
-            proposal_embed = proposal_embed.cpu()
+            external_proposals_embed = external_proposals_embed.cpu()
         
         if numpy:
         #Convert to numpy array
-            roi_scores = roi_scores.cpu().numpy()
-            proposal_scores = proposal_scores.cpu().numpy()
-            roi_boxes = roi_boxes.cpu().numpy()
-            roi_embed = roi_embed.cpu().numpy()
+            rpn_roi_scores = rpn_roi_scores.cpu().numpy()
+            external_proposals_scores = external_proposals_scores.cpu().numpy()
+            rpn_roi_boxes = rpn_roi_boxes.cpu().numpy()
+            rpn_roi_embed = rpn_roi_embed.cpu().numpy()
             gt_embed = gt_embed.cpu().numpy()
-            proposal_embed = proposal_embed.cpu().numpy()
+            external_proposals_embed = external_proposals_embed.cpu().numpy()
             
-        roi_scores = roi_scores[:, 1]
-        proposal_scores = proposal_scores[:, 1]
+        # roi_scores = roi_scores[:, 1]
+        # proposal_scores = proposal_scores[:, 1]
             
-        out = (roi_scores, proposal_scores, roi_boxes, roi_embed, gt_embed, proposal_embed)
+        out = (rpn_roi_scores, external_proposals_scores, rpn_roi_boxes, rpn_roi_embed, gt_embed, external_proposals_embed)
         return out
         
     def forward(self, input):

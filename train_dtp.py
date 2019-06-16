@@ -1,10 +1,12 @@
 import warnings
+
 warnings.filterwarnings("ignore")
 import os
 import json
 import easydict
 import time
 import torch
+import logging
 from misc.dataloader import DataLoader
 import torch.optim as optim
 import misc.datasets as datasets
@@ -14,6 +16,9 @@ from misc.h5_dataset import H5Dataset
 from train_opts import parse_args
 from evaluate_dtp import mAP
 
+logging.basicConfig(format='[%(asctime)s, %(levelname)s, %(name)s] %(message)s',
+                    datefmt='%Y-%m-%d %H:%M:%S',
+                    level=logging.INFO)
 opt = parse_args()
 os.environ['CUDA_VISIBLE_DEVICES'] = str(opt.gpu)
 torch.backends.cudnn.benchmark = False
@@ -31,7 +36,7 @@ else:
     valset = datasets.Dataset(opt, 'val')
     testset = datasets.Dataset(opt, 'test')
 
-sampler=datasets.RandomSampler(trainset, opt.max_iters)
+sampler = datasets.RandomSampler(trainset, opt.max_iters)
 trainloader = DataLoader(trainset, batch_size=1, sampler=sampler, num_workers=opt.num_workers)
 valloader = DataLoader(valset, batch_size=1, shuffle=False, num_workers=0)
 testloader = DataLoader(testset, batch_size=1, shuffle=False, num_workers=0)
@@ -51,9 +56,9 @@ model.load_weights(opt.weights)
 model.cuda()
 
 learning_rate = float(opt.learning_rate)
-optimizer = optim.Adam(model.parameters(), learning_rate, (opt.beta1, opt.beta2),opt.epsilon, opt.weight_decay)
+optimizer = optim.Adam(model.parameters(), learning_rate, (opt.beta1, opt.beta2), opt.epsilon, opt.weight_decay)
 keys = ['e', 'eo', 'total_loss']
-running_losses = {k:0.0 for k in keys}
+running_losses = {k: 0.0 for k in keys}
 
 it = 0
 args = easydict.EasyDict()
@@ -79,13 +84,13 @@ if opt.eval_first_iteration:
         print(log)
     best_score = (rt.mAP_qbe_50 + rt.mAP_qbs_50) / 2
     mAPs.append((it, [rt.mAP_qbe_50, rt.mAP_qbs_50]))
-    
+
 else:
     best_score = 0.0
 
 if opt.weights:
     opt.save_id += '_pretrained'
-    
+
 if not os.path.exists('checkpoints/ctrlfnet_mini/'):
     os.makedirs('checkpoints/ctrlfnet_mini/')
 
@@ -98,23 +103,23 @@ for data in trainloader:
     except ValueError:
         print 'value error on iteration', it
         continue
-    
+
     optimizer.step()
-    
+
     # print statistics
-    running_losses  = {k:v + losses[k] for k, v in running_losses.iteritems()}
+    running_losses = {k: v + losses[k] for k, v in running_losses.iteritems()}
     if it % opt.print_every == opt.print_every - 1:
-        running_losses  = {k:v / opt.print_every for k, v in running_losses.iteritems()}
+        running_losses = {k: v / opt.print_every for k, v in running_losses.iteritems()}
         loss_string = "[iter %5d] " % (it + 1)
         for k, v in running_losses.iteritems():
-            loss_string += "%s: %.5f | " % (k , v)
-            
+            loss_string += "%s: %.5f | " % (k, v)
+
         trainlog += loss_string
         if show:
             print loss_string
         loss_history.append((it, running_losses.values()))
-        running_losses  = {k:0.0 for k, v in running_losses.iteritems()}
-        
+        running_losses = {k: 0.0 for k, v in running_losses.iteritems()}
+
     if it % opt.eval_every == opt.eval_every - 1:
         log, rf, rt = mAP(model, valloader, args, it)
         trainlog += log
@@ -127,7 +132,7 @@ for data in trainloader:
             torch.save(model.state_dict(), out_name)
             if show:
                 print  'saving ' + out_name
-            
+
         d = {}
         d['opt'] = opt
         d['loss_history'] = loss_history
@@ -139,7 +144,7 @@ for data in trainloader:
     if it % opt.reduce_lr_every == opt.reduce_lr_every - 1:
         learning_rate /= 10.0
         optimizer.param_groups[0]['lr'] = learning_rate
-        
+
     it += 1
 
 if show:
@@ -147,7 +152,7 @@ if show:
         model.load_weights(out_name)
         log, _, rt = mAP(model, testloader, args, it)
         print(log)
-        
+
     d = {}
     d['opt'] = opt
     d['loss_history'] = loss_history
@@ -156,6 +161,6 @@ if show:
     d['testlog'] = log
     with open(out_name + '.json', 'w') as f:
         json.dump(d, f)
-    
+
     duration = time.time() - start
     print "training model took %0.2f hours" % (duration / 3600)

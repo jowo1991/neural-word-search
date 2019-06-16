@@ -22,6 +22,27 @@ from train_opts import parse_args
 import misc.h5_dataset as h5_dataset
 from evaluate import hyperparam_search
 from misc.utils import average_dictionary, copy_log
+import logging
+import sys
+
+
+def final_log(dicts, keys, title):
+    res = average_dictionary(dicts, keys, False, True)
+    pargs = (res.mAP_qbe_25, res.mAP_qbs_25, res.mR_qbe_25, res.mR_qbs_25)
+    s1 = 'QbE mAP: %.1f, QbS mAP: %.1f, QbE mR: %.1f, QbS mR: %.1f, 25%% overlap' % pargs
+    pargs = (res.mAP_qbe_50, res.mAP_qbs_50, res.mR_qbe_50, res.mR_qbs_50)
+    s2 = 'QbE mAP: %.1f, QbS mAP: %.1f, QbE mR: %.1f, QbS mR: %.1f, 50%% overlap' % pargs
+    log = '%s\n--------------------------------\n' % title
+    log += '[test set] %s\n' % s1
+    log += '[test set] %s\n' % s2
+    log += '--------------------------------\n'
+    return log
+
+logging.basicConfig(format='[%(asctime)s, %(levelname)s, %(name)s] %(message)s',
+                    datefmt='%Y-%m-%d %H:%M:%S',
+                    level=logging.DEBUG,
+                    stream=sys.stdout)
+logger = logging.getLogger('test')
 
 opt = parse_args()
 os.environ['CUDA_VISIBLE_DEVICES'] = str(opt.gpu)
@@ -44,7 +65,7 @@ torch.manual_seed(opt.seed)
 torch.cuda.manual_seed(opt.seed)
 torch.cuda.device(opt.gpu)
 
-# initialize the Ctrl-F-Net model object
+logger.info("Initialize the Ctrl-F-Net model object")
 model = ctrlf.CtrlFNet(opt)
 model.load_weights(opt.weights)
 model.cuda()
@@ -60,7 +81,16 @@ args.max_proposals = opt.max_proposals
 args.overlap_thresholds = [0.25, 0.5]
 args.rpn_nms_thresh = opt.test_rpn_nms_thresh
 args.numpy = False
-args.num_workers = 6
+args.num_workers = 12
+
+logger.info("Running with args:")
+for key, value in args.items():
+    logger.info("%s: %s", key, value)
+
+logger.info("Running with opts:")
+for key, value in opt.items():
+    logger.info("%s: %s", key, value)
+
 
 r_keys = ['3_dtp_recall_50', '3_rpn_recall_50', '3_total_recall_50', 
           '3_dtp_recall_25', '3_rpn_recall_25', '3_total_recall_25']
@@ -85,6 +115,7 @@ if opt.hyperparam_opt:
 if opt.folds:
     rts, rfs = [], []
     for fold in range(1,5):
+        logger.info('running fold %d', fold)
         s = opt.weights.find('fold')
         e = s + 5
         opt.weights = opt.weights[:s] + ('fold%d' % fold) + opt.weights[e:]
@@ -98,7 +129,7 @@ if opt.folds:
         loader = DataLoader(testset, batch_size=1, shuffle=False, num_workers=0)
 
         model = ctrlf.CtrlFNet(opt)
-        model.load_state_dict(torch.load(opt.weights))
+        model.load_weights(opt.weights)
         model.cuda()
         log, rf, rt = mAP(model, loader, args, 0)
         print(log)
@@ -119,24 +150,12 @@ else:
     copy_log(rt)
     avg_rts = rt
 
-def final_log(dicts, keys, title):
-    res = average_dictionary(dicts, keys, False, True)
-    pargs = (res.mAP_qbe_25, res.mAP_qbs_25, res.mR_qbe_25, res.mR_qbs_25)
-    s1 = 'QbE mAP: %.1f, QbS mAP: %.1f, QbE mR: %.1f, QbS mR: %.1f, 25%% overlap' % pargs
-    pargs = (res.mAP_qbe_50, res.mAP_qbs_50, res.mR_qbe_50, res.mR_qbs_50)
-    s2 = 'QbE mAP: %.1f, QbS mAP: %.1f, QbE mR: %.1f, QbS mR: %.1f, 50%% overlap' % pargs
-    log = '%s\n--------------------------------\n' % title
-    log += '[test set] %s\n' % s1
-    log += '[test set] %s\n' % s2
-    log += '--------------------------------\n'
-    return log
-
-if opt.folds:
-    print opt.weights
-    print final_log(avg_rts, keys + r_keys, 'With DTP')
+# if opt.folds:
+    # print opt.weights
+    # print final_log(avg_rts, keys + r_keys, 'With DTP')
     
-    if not dtp_only and opt.dataset != 'iam':
-        print final_log(avg_rfs, keys, 'RPN only')
+    #if not dtp_only and opt.dataset != 'iam':
+    #    print final_log(avg_rfs, keys, 'RPN only')
     
 if opt.save:
     if dtp_only:
@@ -148,11 +167,12 @@ if opt.save:
         
     data = {'avg_rts':avg_rts, 'avg_rfs': avg_rfs}
     
-    if not os.path.exists(outdir):
-        os.makedirs(outdir)
+    # if not os.path.exists(outdir):
+    #    os.makedirs(outdir)
     
     with open(outdir + '_data.json', 'w') as fp:
         json.dump(data, fp)
         
     with open(outdir + '_data.p', 'wb') as fp:
         pickle.dump(data, fp, protocol=pickle.HIGHEST_PROTOCOL)
+

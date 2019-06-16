@@ -140,11 +140,11 @@ def nms_np(boxes, overlap):
 def nms(boxes, overlap, max_boxes=None):
     if isinstance(boxes, list) or isinstance(boxes, tuple):
         # -- unpack list into boxes array and scores array
-        s = boxes[2]
+        scores = boxes[2]
         boxes = boxes[1]
     else:
         # -- boxes is a tensor and last column are scores
-        s = boxes[:, -1]
+        scores = boxes[:, -1]
   
     if boxes.numel() == 0:
         return torch.zeros(0)
@@ -155,22 +155,23 @@ def nms(boxes, overlap, max_boxes=None):
     y2 = boxes[:,3]
     area = (x2 - x1 + 1.0) * (y2 - y1 + 1.0 )
 
-    vals, I = s.sort(0)
-    pick = torch.zeros(s.size()).long()
+    # order scores tensor (ascending)
+    vals, indices = scores.sort(dim=0)
+    pick = torch.zeros(scores.size()).long()
     if boxes.is_cuda:
         pick = pick.cuda()
         
     counter = 0
-    while (max_boxes == None or counter < max_boxes) and I.numel() > 0:
-        last = I.size(0) - 1
-        i = I[last]
+    while (max_boxes == None or counter < max_boxes) and indices.numel() > 0:
+        last = indices.size(0) - 1
+        i = indices[last]
         pick[counter] = i
         if last == 0:
             break
         
         counter += 1
     
-        I = I[:last]
+        indices = indices[:last]
 
         # Compute IoU between current box and all boxes
         xx1 = torch.clamp(x1, min=x1[i])
@@ -187,9 +188,9 @@ def nms(boxes, overlap, max_boxes=None):
         # Figure out which boxes have IoU below the threshold with the current box;
         # since we only really need to know IoU between the current box and the
         # boxes specified by I, pick those elements out.
-        mask = torch.gather(iou.le(overlap).byte(), dim=0, index=I)
+        mask = torch.gather(iou.le(overlap).byte(), dim=0, index=indices)
 
-        I = I[mask]
+        indices = indices[mask]
   
     pick = pick[:counter]
     return pick

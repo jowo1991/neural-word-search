@@ -1,0 +1,1 @@
+python train_dtp.py -embedding phoc -dataset esposalles -fold 1 -dtp_train 1 -augment 0 -verbose 1 -quiet 0 -eval_first_iteration 0 -weights model/ctrlfnet_mini_phoc_iiit_hws.pt -max_iters 25000 -eval_every 1000 -h5 0 -image_size 1050 -save_id nonms > train/esposalles_phoc_nonms.out 2> train/esposalles_phoc_nonms.err

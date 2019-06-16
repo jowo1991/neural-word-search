@@ -8,6 +8,7 @@ Created on Wed Oct 11 16:57:59 2017
 
 import numpy as np
 import easydict
+import logging
 
 from skimage.util import img_as_ubyte
 from skimage.color import rgb2gray
@@ -97,6 +98,9 @@ def filter_region_proposals(data, original_heights, original_widths, image_size)
             
         #Only keep unique proposals in downsampled coordinate system, i.e., remove aliases 
         region_proposals, _ = unique_boxes(np.array(okay))
+        logging.getLogger('filter_region_proposals').debug("%s: %d / %d / %d", datum['id'],
+                                                           len(datum['region_proposals']),
+                                                           len(okay), region_proposals.shape[0])
         datum['region_proposals'] = region_proposals
         
 def filter_ground_truth_boxes(data, image_size=1720):

@@ -5,6 +5,7 @@ import torch.nn.functional as F
 from torch.autograd import Variable
 import math
 import easydict
+import logging
 
 #Load submodules
 from reshape_box_features import ReshapeBoxFeatures
@@ -17,6 +18,9 @@ from invert_box_transform import InvertBoxTransform
 
 import box_utils
 import utils
+
+rpn_logger = logging.getLogger('RPN')
+loclayer_logger = logging.getLogger('LocalizationLayer')
 
 class RPN(nn.Module):
     def __init__(self, opt):
@@ -163,6 +167,10 @@ class LocalizationLayer(nn.Module):
         self.test_clip_boxes = utils.getopt(args, 'clip_boxes', True)
         self.test_nms_thresh = utils.getopt(args, 'nms_thresh', 0.7)
         self.test_max_proposals = utils.getopt(args, 'max_proposals', 300)
+
+        loclayer_logger.debug('clip_boxes: %s', self.test_clip_boxes)
+        loclayer_logger.debug('nms_thresh: %.2f', self.test_nms_thresh)
+        loclayer_logger.debug('max_proposals: %d', self.test_max_proposals)
         
     def init_weights(self):
         self.rpn.init_weights()
@@ -333,7 +341,7 @@ class LocalizationLayer(nn.Module):
         neg_exp = rpn_scores_exp[0, :, 1]
         scores = (pos_exp + neg_exp).pow(-1) * pos_exp
         
-        verbose = False
+        verbose = True
         if verbose:
             print('in LocalizationLayer forward_test')
             print('Before NMS there are %d boxes'% num_boxes)

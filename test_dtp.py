@@ -9,18 +9,26 @@ try:
     import cPickle as pickle
 except ImportError:  # python 3.x
     import pickle
-import json
 
+import json
+import logging
 import os
+
 import easydict
 import torch
-from misc.dataloader import DataLoader
-import misc.datasets as datasets
+
 import ctrlfnet_model_dtp as ctrlf
-from train_opts import parse_args
+import misc.datasets as datasets
 import misc.h5_dataset as h5_dataset
 from evaluate_dtp import hyperparam_search, mAP
+from misc.dataloader import DataLoader
 from misc.utils import average_dictionary, copy_log
+from train_opts import parse_args
+
+logging.basicConfig(format='[%(asctime)s, %(levelname)s, %(name)s] %(message)s',
+                    datefmt='%Y-%m-%d %H:%M:%S',
+                    level=logging.DEBUG)
+logger = logging.getLogger('test_dtp')
 
 opt = parse_args()
 os.environ['CUDA_VISIBLE_DEVICES'] = str(opt.gpu)
@@ -30,7 +38,7 @@ if opt.h5:
     opt.num_workers = 0
 else:
     testset = datasets.Dataset(opt, 'test')
-    
+
 loader = DataLoader(testset, batch_size=1, shuffle=False, num_workers=0)
 torch.set_default_tensor_type('torch.FloatTensor')
 torch.manual_seed(opt.seed)
@@ -55,12 +63,20 @@ args.rpn_nms_thresh = opt.test_rpn_nms_thresh
 args.numpy = False
 args.num_workers = 6
 
+logger.info("Running with args:")
+for key, value in args.items():
+    logger.info("%s: %s", key, value)
+
+logger.info("Running with opts:")
+for key, value in opt.items():
+    logger.info("%s: %s", key, value)
+
 r_keys = ['3_total_recall_50', '3_total_recall_25']
 
 keys = []
 for ot in args.overlap_thresholds:
     keys += ['mAP_qbe_%d' % (ot * 100), 'mAP_qbs_%d' % (ot * 100),
-             'mR_qbe_%d' % (ot*100), 'mR_qbs_%d' % (ot*100)]
+             'mR_qbe_%d' % (ot * 100), 'mR_qbs_%d' % (ot * 100)]
 
 if opt.hyperparam_opt:
     print 'performing hyper param search'
@@ -72,11 +88,11 @@ if opt.hyperparam_opt:
     valloader = DataLoader(valset, batch_size=1, shuffle=False, num_workers=0)
 
     hyperparam_search(model, valloader, args, opt, 'all')
-    print 'hyper param search done' 
+    print 'hyper param search done'
 
 if opt.folds:
     rts = []
-    for fold in range(1,5):
+    for fold in range(1, 5):
         s = opt.weights.find('fold')
         e = s + 5
         opt.weights = opt.weights[:s] + ('fold%d' % fold) + opt.weights[e:]
@@ -95,13 +111,14 @@ if opt.folds:
         copy_log(rt)
         print(log)
         rts.append(rt)
-            
-else: 
+
+else:
     log, _, avg = mAP(model, loader, args, 0)
     avg['log'] = average_dictionary(avg['log'], r_keys)
     copy_log(avg)
     rts = [avg]
     print(log)
+
 
 def final_log(dicts, keys, title):
     res = average_dictionary(dicts, keys, False, True)
@@ -115,16 +132,17 @@ def final_log(dicts, keys, title):
     log += '--------------------------------\n'
     return log
 
+
 print final_log(rts, keys + r_keys, 'With DTP')
 
 if opt.save:
     outdir = 'results_dtp/' + opt.weights.split('/')[-1]
     if not os.path.exists(outdir):
-        os.makedirs(outdir)    
-    
-    data = {'avg':avg}
+        os.makedirs(outdir)
+
+    data = {'avg': avg}
     with open(outdir + '_data.json', 'w') as fp:
         json.dump(data, fp)
-        
+
     with open(outdir + '_data.p', 'wb') as fp:
         pickle.dump(data, fp, protocol=pickle.HIGHEST_PROTOCOL)
