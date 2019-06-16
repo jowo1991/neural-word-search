@@ -1,6 +1,34 @@
 # The Esposalles Database 
 [Download](http://rrc.cvc.uab.es/?ch=10&com=introduction)
 
+```
+@article{Romero.2013.Esposalles,
+ author = {Romero, Ver{\'o}nica and Forn{\'e}s, Alicia and Serrano, Nicol{\'a}s and S{\'a}nchez, Joan Andreu and Toselli, Alejandro H. and Frinken, Volkmar and Vidal, Enrique and Llad{\'o}s, Josep},
+ year = {2013},
+ title = {{The ESPOSALLES database: An ancient marriage license corpus for off-line handwriting recognition}},
+ pages = {1658--1669},
+ volume = {46},
+ number = {6},
+ issn = {00313203},
+ journal = {{Pattern Recognition}},
+ doi = {\url{10.1016/j.patcog.2012.11.024}}
+}
+
+
+@INPROCEEDINGS{Fornes.2017.IEHHR,
+author = {Forn{\'e}s, A. and Romero, V. and Bar{\'o}, A. and Toledo, J. I. and S{\'a}nchez, J. A. and Vidal, E. and Llad{\'o}s, J.},
+booktitle={2017 14th IAPR International Conference on Document Analysis and Recognition (ICDAR)},
+title={ICDAR2017 Competition on Information Extraction in Historical Handwritten Records},
+year={2017},
+volume={01},
+number={},
+pages={1389-1394},
+doi={10.1109/ICDAR.2017.227},
+ISSN={2379-2140},
+month={Nov}}
+
+```
+
 ## Folder structure
 ```
 ./test/ground_truth:
@@ -264,33 +292,4 @@ Volum_069_Registres_0131.jpg
 Volum_069_Registres_0134.jpg
 Volum_069_Registres_0148.jpg
 Volum_069_Registres_0152.jpg
-```
-
-## Publications
-```
-@article{Romero.2013.Esposalles,
- author = {Romero, Ver{\'o}nica and Forn{\'e}s, Alicia and Serrano, Nicol{\'a}s and S{\'a}nchez, Joan Andreu and Toselli, Alejandro H. and Frinken, Volkmar and Vidal, Enrique and Llad{\'o}s, Josep},
- year = {2013},
- title = {{The ESPOSALLES database: An ancient marriage license corpus for off-line handwriting recognition}},
- pages = {1658--1669},
- volume = {46},
- number = {6},
- issn = {00313203},
- journal = {{Pattern Recognition}},
- doi = {\url{10.1016/j.patcog.2012.11.024}}
-}
-
-
-@INPROCEEDINGS{Fornes.2017.IEHHR,
-author = {Forn{\'e}s, A. and Romero, V. and Bar{\'o}, A. and Toledo, J. I. and S{\'a}nchez, J. A. and Vidal, E. and Llad{\'o}s, J.},
-booktitle={2017 14th IAPR International Conference on Document Analysis and Recognition (ICDAR)},
-title={ICDAR2017 Competition on Information Extraction in Historical Handwritten Records},
-year={2017},
-volume={01},
-number={},
-pages={1389-1394},
-doi={10.1109/ICDAR.2017.227},
-ISSN={2379-2140},
-month={Nov}}
-
 ```
