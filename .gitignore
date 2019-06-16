@@ -4,10 +4,8 @@
 *.pt
 *.h5
 
-
+.idea
+!/data/README.md
+!/data/washington/indeces.npy
+!/data/iam/stopwords.txt
 /checkpoints
-/results
-/results_dtp
-/results_recall
-/results_recall_dtp
-/results_ghosh
